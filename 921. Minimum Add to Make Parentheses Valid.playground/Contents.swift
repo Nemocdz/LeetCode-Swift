@@ -4,18 +4,19 @@ let s = "(()))))("
 
 class Solution {
     func minAddToMakeValid(_ S: String) -> Int {
-        var i = 0
-        var result = 0
-        var balance = 0
-        while i < S.count {
-            balance += S[String.Index(encodedOffset: i)] == "(" ? 1 : -1
-            if balance == -1 {
-                result += 1
-                balance += 1
+        // how many "(" we need
+        var left = 0
+        // how many ")" we need
+        var right = 0
+        
+        for c in S {
+            if right == 0 && c == ")"{
+                left += 1
+            } else {
+                right += c == "(" ? 1 : -1
             }
-            i += 1
         }
-        return result + balance
+        return left + right
     }
 }
 
