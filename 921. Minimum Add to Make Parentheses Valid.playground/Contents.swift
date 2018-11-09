@@ -1,24 +1,21 @@
 import UIKit
 
-let s = "()))(("
+let s = "(()))))("
 
 class Solution {
     func minAddToMakeValid(_ S: String) -> Int {
         var i = 0
-        var j = S.count - 1
         var result = 0
-        while i <= j {
-            let a = String.Index.init(encodedOffset: i)
-            let b = String.Index.init(encodedOffset: j)
-            if S[a] != S[b] {
-                i += 1
-                j -= 1
-            } else {
-                i += 1
+        var balance = 0
+        while i < S.count {
+            balance += S[String.Index(encodedOffset: i)] == "(" ? 1 : -1
+            if balance == -1 {
                 result += 1
+                balance += 1
             }
+            i += 1
         }
-        return result
+        return result + balance
     }
 }
 
