@@ -12,11 +12,11 @@ class Solution {
                         result.append("(" + left  + ")" + right)
                     }
                 }
-            }
+            } 
             return result
         }
     }
 }
 
 
-Solution().generateParenthesis(3)
+Solution().generateParenthesis(2)
