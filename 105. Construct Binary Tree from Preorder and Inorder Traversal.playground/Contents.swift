@@ -1,24 +1,23 @@
 import Cocoa
 
-/**
- Given preorder and inorder traversal of a tree, construct the binary tree.
+/*
+ 根据一棵树的前序遍历与中序遍历构造二叉树。
  
- Note:
- You may assume that duplicates do not exist in the tree.
+ 注意:
+ 你可以假设树中没有重复的元素。
  
- For example, given
+ 例如，给出
  
- preorder = [3,9,20,15,7]
- inorder = [9,3,15,20,7]
- Return the following binary tree:
+ 前序遍历 preorder = [3,9,20,15,7]
+ 中序遍历 inorder = [9,3,15,20,7]
+ 返回如下的二叉树：
  
-  3
- / \
+   3
+  / \
  9  20
    /  \
   15   7
-**/
- 
+*/
  
  
 /**
