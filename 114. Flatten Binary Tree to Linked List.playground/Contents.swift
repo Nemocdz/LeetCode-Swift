@@ -1,16 +1,16 @@
 import Cocoa
 
 /*
- Given a binary tree, flatten it to a linked list in-place.
+ 给定一个二叉树，原地将它展开为链表。
  
- For example, given the following tree:
+ 例如，给定二叉树
  
      1
     / \
    2   5
   / \   \
  3   4   6
- The flattened tree should look like:
+将其展开为：
  
  1
   \
