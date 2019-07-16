@@ -1,14 +1,13 @@
 import Cocoa
 
 /*
-Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
-
-Example:
-
-Input: [1,2,3,null,5,null,4]
-Output: [1, 3, 4]
-Explanation:
-
+ 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+ 
+ 示例:
+ 
+ 输入: [1,2,3,null,5,null,4]
+ 输出: [1, 3, 4]
+ 解释:
    1            <---
  /   \
 2     3         <---

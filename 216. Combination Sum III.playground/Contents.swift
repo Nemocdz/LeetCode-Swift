@@ -1,20 +1,20 @@
 import Cocoa
 
 /*
- Find all possible combinations of k numbers that add up to a number n, given that only numbers from 1 to 9 can be used and each combination should be a unique set of numbers.
+ 找出所有相加之和为 n 的 k 个数的组合。组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。
  
- Note:
+ 说明：
  
- All numbers will be positive integers.
- The solution set must not contain duplicate combinations.
- Example 1:
+ 所有数字都是正整数。
+ 解集不能包含重复的组合。
+ 示例 1:
  
- Input: k = 3, n = 7
- Output: [[1,2,4]]
- Example 2:
+ 输入: k = 3, n = 7
+ 输出: [[1,2,4]]
+ 示例 2:
  
- Input: k = 3, n = 9
- Output: [[1,2,6], [1,3,5], [2,3,4]]
+ 输入: k = 3, n = 9
+ 输出: [[1,2,6], [1,3,5], [2,3,4]]
  */
 
 class Solution {
