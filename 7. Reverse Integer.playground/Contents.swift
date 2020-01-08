@@ -24,11 +24,15 @@ let x = -90000
 
 class Solution {
     func reverse(_ x: Int) -> Int {
-        let result = Int(String(String(abs(x)).reversed()))!
-        guard result < 1<<31 - 1 else {
-            return 0
+        let max = 1<<31 - 1
+        let min = -(max + 1)
+        var reverse = 0
+        var num = x
+        while num != 0 {
+            reverse = reverse * 10 + num % 10
+            num /= 10
         }
-        return x > 0 ? result : -result
+        return reverse > max || reverse < min ? 0 : reverse
     }
 }
 
