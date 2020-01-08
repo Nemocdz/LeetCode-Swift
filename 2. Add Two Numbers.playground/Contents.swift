@@ -31,32 +31,30 @@ let b = ListNode(0)
  
 class Solution {
     func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
-        let result = ListNode(0)
+        let head = ListNode(0)
+        var new = head
         var l1 = l1
         var l2 = l2
-        var current = result
-        var carry = 0
-        
+        var carry = false
+    
         while l1 != nil || l2 != nil {
-            let x = l1?.val ?? 0
-            let y = l2?.val ?? 0
-            let sum = x + y + carry
-            carry = sum / 10
-            current.next = ListNode(sum % 10)
-            current = current.next!
-            if l1 != nil {
-                l1 = l1!.next
-            }
-            if l2 != nil {
-                l2 = l2!.next
-            }
+            let a = l1?.val ?? 0
+            let b = l2?.val ?? 0
+            
+            let sum = a + b + (carry ? 1 : 0)
+            carry = sum >= 10
+            new.next = ListNode(sum % 10)
+            
+            l1 = l1?.next
+            l2 = l2?.next
+            new = new.next!
         }
         
-        if carry > 0 {
-            current.next = ListNode(carry)
+        if carry {
+            new.next = ListNode(1)
         }
         
-        return result.next
+        return head.next
     }
 }
 

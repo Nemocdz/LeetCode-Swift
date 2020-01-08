@@ -23,17 +23,18 @@ import Cocoa
 
 class Solution {
     func lengthOfLongestSubstring(_ s: String) -> Int {
-        var result = 0
-        var leftIndex = 0
-        var map = [Character: Int]()
-        for (index, c) in s.enumerated() {
-            if let lastIndex = map[c],lastIndex >= leftIndex {
-                result = max(result, index - leftIndex)
-                leftIndex = lastIndex + 1
+        var start = 0
+        var length = 0
+        for end in 0..<s.count {
+            for temp in start..<end {
+                if s[.init(utf16Offset: end, in: s)] == s[.init(utf16Offset: temp, in: s)] {
+                    start = temp + 1
+                    break
+                }
             }
-            map[c] = index
+            length = max(end - start + 1, length)
         }
-        return max(result, s.count - leftIndex)
+        return length
     }
 }
 

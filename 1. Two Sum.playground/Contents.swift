@@ -17,18 +17,16 @@ let nums = [2, 7, 11, 15]
 
 class Solution {
     func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-        var aNums = [Int:Int]()
-        var result = [Int]()
-        
-        for (index, num) in nums.enumerated(){
+        var numIndexs = [Int:Int]()
+        for (index, num) in nums.enumerated() {
             let other = target - num
-            if let otherIndex = aNums[other], otherIndex != index{
-                result = [index, otherIndex]
-                break
+            if let otherIndex = numIndexs[other] {
+                return [index, otherIndex]
+            } else {
+                numIndexs[num] = index
             }
-            aNums[num] = index
         }
-        return result
+        return []
     }
 }
 
