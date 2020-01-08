@@ -17,31 +17,29 @@ import Cocoa
 let s = "babad"
 class Solution {
     func longestPalindrome(_ s: String) -> String {
-        guard !s.isEmpty else {
+        if s.isEmpty {
             return ""
         }
+    
+        var map = [[Bool]](repeating: [Bool](repeating: false, count: s.count), count: s.count)
+        var length = 0
+        var maxString = ""
         
-        var maxLength = 1
-        var start = 0
-        for index in 1..<s.count {
-            if index - maxLength >= 1 {
-                let a = String(s[String.Index(encodedOffset: index - maxLength - 1)..<String.Index(encodedOffset: index + 1)])
-                if a == String(a.reversed()) {
-                    start = index - maxLength - 1
-                    maxLength += 2
-                    continue
-                }
-            }
-            
-            if index - maxLength >= 0  {
-                let a = String(s[String.Index(encodedOffset: index - maxLength)..<String.Index(encodedOffset: index + 1)])
-                if a == String(a.reversed()) {
-                    start = index - maxLength
-                    maxLength += 1
+        for end in 0..<s.count {
+            for start in 0...end {
+                let startIndex = String.Index(utf16Offset: start, in: s)
+                let endIndex = String.Index(utf16Offset: end, in: s)
+                let last = s[startIndex] == s[endIndex]
+                map[start][end] = end - start < 2 ? last : last && map[start + 1][end - 1]
+                let new = end - start + 1
+                if map[start][end] && new > length {
+                    length = new
+                    maxString = String(s[startIndex...endIndex])
                 }
             }
         }
-        return String(s[String.Index(encodedOffset: start)..<String.Index(encodedOffset: start + maxLength)])
+        
+        return maxString
     }
 }
 
