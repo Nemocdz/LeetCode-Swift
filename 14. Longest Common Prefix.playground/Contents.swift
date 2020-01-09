@@ -23,19 +23,32 @@ let a = ["flower","flow","flight"]
 
 class Solution {
     func longestCommonPrefix(_ strs: [String]) -> String {
-        guard !strs.isEmpty else  {
+        if strs.isEmpty {
             return ""
         }
-        var result = strs.first!
-        for str in strs.dropFirst(){
-            while str.range(of: result)?.lowerBound.encodedOffset != 0 {
-                result = String(result.dropLast())
-                if result.isEmpty {
-                    return result
-                }
-            }
+        
+        if strs.count == 1 {
+            return strs.first!
         }
-        return result
+        
+        var strs = strs
+        strs.sort { $0.count < $1.count }
+        
+        var maxString = strs.first!
+        
+        func getMaxString(of first:String, _ second:String) -> String {
+            var end = 0
+            while end < first.count && (first[.init(utf16Offset: end, in: first)] == second[.init(utf16Offset: end, in: second)]) {
+                end += 1
+            }
+            return String(first[first.startIndex..<String.Index(utf16Offset: end, in: first)])
+        }
+        
+        for str in strs.dropFirst() {
+            maxString = getMaxString(of: maxString, str)
+        }
+        
+        return maxString
     }
 }
 
