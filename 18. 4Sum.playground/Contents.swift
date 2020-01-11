@@ -23,78 +23,76 @@ let a = [1, 0, -1, 0, -2, 2]
 
 class Solution {
     func fourSum(_ nums: [Int], _ target: Int) -> [[Int]] {
-        guard nums.count >= 4 else {
-            return []
-        }
-        var nums = nums
-        nums.sort()
-        var result = [[Int]]()
-        for (index, num) in nums.dropLast().dropLast().dropLast().enumerated() {
-            guard index < 1 || num != nums[index - 1] else {
-                continue
-            }
-            let otherNums = Array(nums[index..<nums.count].dropFirst())
-            let others = threeSum(otherNums, target - num)
-            others.forEach { (other) in
-                var array = [num]
-                array.append(contentsOf: other)
-                result.append(array)
-            }
-        }
-        return result
+        return kSum(nums, target: target, k: 4)
     }
     
-    func threeSum(_ nums: [Int],_ target:Int) -> [[Int]] {
-        guard nums.count >= 3 else {
+    func kSum(_ nums:[Int], target:Int, k:Int) -> [[Int]] {
+        if nums.count < k || k == 0 {
             return []
         }
-        var result = [[Int]]()
-        for (index, num) in nums.dropLast().dropLast().enumerated() {
-            guard index < 1 || num != nums[index - 1] else {
-                continue
-            }
-            let otherNums = Array(nums[index..<nums.count].dropFirst())
-            let others = twoSum(otherNums, target - num)
-            
-            others.forEach { (other) in
-                var array = [num]
-                array.append(contentsOf: other)
-                result.append(array)
+        
+        var answers = [[Int]]()
+        let nums = nums.sorted()
+        var temp = [Int]()
+        
+        func _kSum(_ nums:[Int], target:Int, k:Int) {
+            if k == 1 {
+                if nums.contains(target) {
+                    answers.append([target])
+                }
+            } else if k == 2 {
+                answers.append(contentsOf:twoSum(nums, target: target).map{ temp + $0 })
+            } else {
+                for (index, num) in nums.enumerated() {
+                    if (index > 0 && num == nums[index - 1]) || index + k - 1 >= nums.count {
+                        continue
+                    }
+                    temp.append(num)
+                    _kSum(Array(nums[(index + 1)...]), target: target - num, k: k - 1)
+                    temp.removeLast()
+                }
             }
         }
-        return result
+
+        _kSum(nums, target: target, k: k)
+
+        return answers
     }
-    
-    func twoSum(_ nums: [Int], _ target: Int) -> [[Int]] {
-        guard nums.count >= 2 else {
+        
+    func twoSum(_ nums:[Int], target:Int) -> [[Int]] {
+        if nums.count < 2 {
             return []
         }
+        
+        var anwsers = [[Int]]()
+        let nums = nums.sorted()
         var start = 0
         var end = nums.count - 1
-        var result = [[Int]]()
+        
         while start < end {
-            let a = nums[start]
-            let b = nums[end]
-            let sum = a + b
+            let first = nums[start]
+            let second = nums[end]
+            let sum = first + second
             if sum > target {
                 end -= 1
             } else if sum < target {
                 start += 1
             } else {
-                result.append([a, b])
+                anwsers.append([first, second])
                 start += 1
                 end -= 1
+                
                 while start < end && nums[start] == nums[start - 1]{
                     start += 1
                 }
+                
                 while start < end && nums[end] == nums[end + 1] {
                     end -= 1
                 }
             }
         }
-        return result
+        return anwsers
     }
 }
-
 
 Solution().fourSum(a, 0)
