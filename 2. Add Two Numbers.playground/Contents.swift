@@ -31,8 +31,8 @@ let b = ListNode(0)
  
 class Solution {
     func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
-        let head = ListNode(0)
-        var new = head
+        let fake = ListNode(-1)
+        var temp = fake
         var l1 = l1
         var l2 = l2
         var carry = false
@@ -43,18 +43,18 @@ class Solution {
             
             let sum = a + b + (carry ? 1 : 0)
             carry = sum >= 10
-            new.next = ListNode(sum % 10)
+            temp.next = ListNode(sum % 10)
             
             l1 = l1?.next
             l2 = l2?.next
-            new = new.next!
+            temp = temp.next!
         }
         
         if carry {
-            new.next = ListNode(1)
+            temp.next = ListNode(1)
         }
         
-        return head.next
+        return fake.next
     }
 }
 

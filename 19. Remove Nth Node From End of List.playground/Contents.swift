@@ -32,22 +32,22 @@ public class ListNode {
  
 class Solution {
     func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
-        var slow = head
-        var fast = head
-        for _ in 0..<n {
-            fast = fast?.next
-        }
+        let fake:ListNode? = ListNode(-1)
+        fake?.next = head
         
-        if fast == nil {
-            return head?.next
-        }
+        var fast = fake
+        var slow = fake
         
+        var i = 0
         while fast?.next != nil {
-            slow = slow?.next
+            if i >= n {
+                slow = slow?.next
+            }
             fast = fast?.next
+            i += 1
         }
-        slow?.next = slow?.next?.next
         
-        return head
+        slow?.next = slow?.next?.next
+        return fake?.next
     }
 }

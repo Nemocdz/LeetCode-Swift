@@ -39,35 +39,31 @@ let b = ListNode([1, 3, 4])
 
 class Solution {
     func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
-        if l1 == nil && l2 != nil {
-            return l2
-        } else if l1 != nil && l2 == nil {
-            return l1
-        } else if let l1 = l1, let l2 = l2 {
-            let flag = l1.val < l2.val
-            let head = flag ? ListNode(l1.val) : ListNode(l2.val)
-            var a = flag ? l1.next : l1
-            var b = flag ? l2 : l2.next
-            var result = head
-            while a != nil || b != nil {
-                if a == nil {
-                    result.next = ListNode(b!.val)
-                    b = b!.next
-                } else if b == nil {
-                    result.next = ListNode(a!.val)
-                    a = a!.next
+        let fake = ListNode(-1)
+        var temp = fake
+        var l1 = l1
+        var l2 = l2
+        
+        while l1 != nil || l2 != nil {
+            if l1 == nil {
+                temp.next = ListNode(l2!.val)
+                l2 = l2?.next
+            } else if l2 == nil {
+                temp.next = ListNode(l1!.val)
+                l1 = l1?.next
+            } else {
+                if l1!.val < l2!.val {
+                    temp.next = ListNode(l1!.val)
+                    l1 = l1?.next
                 } else {
-                    let flag = a!.val < b!.val
-                    result.next = flag ? ListNode(a!.val) : ListNode(b!.val)
-                    a = flag ? a!.next : a
-                    b = flag ? b : b!.next
+                    temp.next = ListNode(l2!.val)
+                    l2 = l2?.next
                 }
-                result = result.next!
             }
-            return head
-        } else {
-            return nil
+            temp = temp.next!
         }
+        
+        return fake.next
     }
 }
 

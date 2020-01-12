@@ -30,16 +30,17 @@ class Solution {
                                          "7":["p","q","r","s"],
                                          "8":["t","u","v"],
                                          "9":["w","x","y","z"]]
-        var result = [String]()
-        digits.forEach {
-            guard let strings = map[$0] else { return }
-            if result.isEmpty {
-                result = strings
-            } else {
-                result = result.flatMap({ string in strings.map({ string + $0 }) })
+        var answers = [String]()
+        for digit in digits {
+            if let lettters = map[digit] {
+                answers = answers.isEmpty ? lettters : answers.flatMap { answer in
+                    lettters.map { letter in
+                        answer + letter
+                    }
+                }
             }
         }
-        return result
+        return answers
     }
 }
 

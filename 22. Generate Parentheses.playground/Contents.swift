@@ -18,17 +18,18 @@ class Solution {
     func generateParenthesis(_ n: Int) -> [String] {
         if n == 0 {
             return [""]
-        } else {
-            var result = [String]()
-            for index in 0..<n {
-                for left in generateParenthesis(index) {
-                    for right in generateParenthesis(n - index - 1) {
-                        result.append("(" + left  + ")" + right)
-                    }
-                }
-            } 
-            return result
         }
+        
+        var answers = [String]()
+        for i in 0..<n {
+            for left in generateParenthesis(i) {
+                for right in generateParenthesis(n - i - 1) {
+                    answers.append("(" + left + ")" + right)
+                }
+            }
+        }
+        
+        return answers
     }
 }
 
