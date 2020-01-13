@@ -31,19 +31,20 @@ class Solution {
         }
         
         func getNext(of s:String) -> [Int] {
-            var next = [Int](repeating: -1, count: s.count)
+            var next = [Int](repeating: 0, count: s.count)
             var i = 0
-            // j = next[i]
+            // 0 时不相等
+            next[0] = -1
+            // 前 i 位前后缀相等长度
             var j = next[i]
             while i < s.count - 1 {
-                // s[i] == s[j]
-                if s[.init(utf16Offset: i, in: s)] == s[.init(utf16Offset: j, in: s)] {
-                    // next[i + 1] = next[i] + 1
-                    next[i + 1] = next[i] + 1
+                if j == -1 || s[.init(utf16Offset: i, in: s)] == s[.init(utf16Offset: j, in: s)] {
+                    // s[i] == s[j] 时，next[i + 1] = next[i] + 1
+                    j += 1
                     i += 1
-                    j = next[i]
+                    next[i] = j
                 } else {
-                    // new j == next[j]
+                    // 新的长度为 next[j]
                     j = next[j]
                 }
             }
@@ -51,28 +52,32 @@ class Solution {
         }
         
         let next = getNext(of: needle)
-    
         var i = 0
         
         while i < haystack.count {
-            if haystack.count - i < needle.count {
+            if haystack.count < i + needle.count {
                 return -1
             }
             
+            // 最长前缀
             var j = 0
-            while j < needle.count {
+            for _ in 0..<needle.count {
                 if haystack[.init(utf16Offset: i + j, in: haystack)] != needle[.init(utf16Offset: j, in: needle)] {
                     break
                 }
                 j += 1
             }
             
-            if j >= needle.count {
+            if j == needle.count {
                 return i
             }
             
+            // 下一次从最长前缀后往前回滚前后缀相等的长度
             i += j - next[j]
         }
         return -1;
     }
 }
+
+
+Solution().strStr("HelloHelloHead", "HelloHea")
