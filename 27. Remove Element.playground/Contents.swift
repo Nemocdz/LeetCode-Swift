@@ -43,21 +43,13 @@ import Cocoa
 
 class Solution {
     func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
-        var start = 0
-        var end = nums.count - 1
-        while start <= end {
-            if nums[start] != val {
-                start += 1
-                continue
+        var i = 0
+        for num in nums {
+            if num != val {
+                nums[i] = num
+                i += 1
             }
-            
-            if nums[end] == val {
-                end -= 1
-                continue
-            }
-            
-            nums.swapAt(start, end)
         }
-        return start
+        return i
     }
 }

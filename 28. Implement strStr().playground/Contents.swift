@@ -25,19 +25,54 @@ class Solution {
         if needle.isEmpty {
             return 0
         }
-        guard !needle.isEmpty && haystack.count >= needle.count else {
+        
+        if needle.count > haystack.count {
             return -1
         }
-        var result = -1
-        for index in 0..<haystack.count - needle.count + 1 {
-            guard haystack[String.Index(encodedOffset: index)] == needle.first else {
-                continue
+        
+        func getNext(of s:String) -> [Int] {
+            var next = [Int](repeating: -1, count: s.count)
+            var i = 0
+            // j = next[i]
+            var j = next[i]
+            while i < s.count - 1 {
+                // s[i] == s[j]
+                if s[.init(utf16Offset: i, in: s)] == s[.init(utf16Offset: j, in: s)] {
+                    // next[i + 1] = next[i] + 1
+                    next[i + 1] = next[i] + 1
+                    i += 1
+                    j = next[i]
+                } else {
+                    // new j == next[j]
+                    j = next[j]
+                }
             }
-            if haystack[String.Index(encodedOffset: index)..<String.Index(encodedOffset: index + needle.count)] == needle {
-                result = index
-                break
-            }
+            return next
         }
-        return result
+        
+        let next = getNext(of: needle)
+    
+        var i = 0
+        
+        while i < haystack.count {
+            if haystack.count - i < needle.count {
+                return -1
+            }
+            
+            var j = 0
+            while j < needle.count {
+                if haystack[.init(utf16Offset: i + j, in: haystack)] != needle[.init(utf16Offset: j, in: needle)] {
+                    break
+                }
+                j += 1
+            }
+            
+            if j >= needle.count {
+                return i
+            }
+            
+            i += j - next[j]
+        }
+        return -1;
     }
 }
