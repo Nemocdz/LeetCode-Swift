@@ -40,18 +40,18 @@ import Cocoa
 
 class Solution {
     func removeDuplicates(_ nums: inout [Int]) -> Int {
-        guard !nums.isEmpty else {
-            return nums.count
+        if nums.isEmpty {
+            return 0
         }
-        var index = 1
-        var last = nums.first!
-        for num in nums.dropFirst() {
-            if num != last {
-                nums[index] = num
-                index += 1
-                last = num
+        
+        var i = 0
+        for j in 1..<nums.count {
+            if nums[i] != nums[j] {
+                nums[i] = nums[j]
+                i += 1
             }
         }
-        return index
+        
+        return i + 1
     }
 }

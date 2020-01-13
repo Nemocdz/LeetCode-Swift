@@ -26,29 +26,12 @@ public class ListNode {
  
 class Solution {
     func swapPairs(_ head: ListNode?) -> ListNode? {
-        var length = 0
-        var current = head
-        var pre:ListNode? = nil
-        var result:ListNode? = nil
-        var last:ListNode? = nil
-        while current != nil {
-            length += 1
-            if length % 2 == 0 {
-                let next = current?.next
-                current?.next = pre
-                pre?.next = next
-                last?.next = current
-                if result == nil {
-                    result = current
-                }
-                last = pre
-                let temp = current
-                current = pre
-                pre = temp
-            }
-            pre = current
-            current = current?.next
+        if head == nil || head?.next == nil {
+            return head
         }
-        return length > 1 ? result : head
+        let next = head?.next
+        head?.next = swapPairs(next?.next)
+        next?.next = head
+        return next;
     }
 }
