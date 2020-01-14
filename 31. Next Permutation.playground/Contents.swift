@@ -17,37 +17,28 @@ var a = [1, 3, 2]
 
 class Solution {
     func nextPermutation(_ nums: inout [Int]) {
-        guard nums.count > 1 else {
+        if nums.count <= 1 {
             return
         }
-        
-        var flagIndex = nums.count - 2
-        for (index, num) in nums.enumerated().reversed(){
-            guard index > 0 else {
-                flagIndex = -1
-                break
-            }
-            flagIndex = index - 1
-            if num > nums[flagIndex]{
-                break
-            }
+                
+        var i = nums.count - 2
+        // 找到倒数第一个逆序点
+        while i >= 0 && nums[i] >= nums[i + 1] {
+            i -= 1
         }
         
-        if flagIndex == -1 {
-            nums = nums.reversed()
-        } else {
-            var swapIndex = flagIndex + 1
-            for (index, num) in nums.enumerated().reversed(){
-                if num > nums[flagIndex] {
-                    swapIndex = index
-                    break
-                }
+        // 如果不是全部逆序
+        if i >= 0 {
+            var j = nums.count - 1
+            // 找到点右边倒数第一个比 nums[i] 大的
+            while nums[j] <= nums[i] {
+                j -= 1
             }
-            nums.swapAt(swapIndex, flagIndex)
-            var array = nums[flagIndex + 1..<nums.count]
-            array.sort()
-            nums.replaceSubrange(flagIndex + 1..<nums.count, with: array)
+            nums.swapAt(i, j)
         }
+        
+        // 后面的直接反转，就是最小的排列
+        nums[(i + 1)...].reverse()
     }
 }
 
