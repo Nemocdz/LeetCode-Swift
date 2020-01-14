@@ -30,6 +30,33 @@ class Solution {
             return -1
         }
         
+        for i in 0..<haystack.count - needle.count + 1 {
+            var isMatch = true
+            for j in 0..<needle.count {
+                if haystack[.init(utf16Offset: i + j, in: haystack)] != needle[.init(utf16Offset: j, in: needle)] {
+                    isMatch = false
+                    break
+                }
+            }
+            
+            if isMatch {
+                return i
+            }
+        }
+        
+        return -1
+    }
+    
+    
+    func kmp(_ haystack: String, _ needle: String) -> Int {
+        if needle.isEmpty {
+            return 0
+        }
+
+        if needle.count > haystack.count {
+            return -1
+        }
+
         func getNext(of s:String) -> [Int] {
             var next = [Int](repeating: 0, count: s.count)
             var i = 0
@@ -50,7 +77,7 @@ class Solution {
             }
             return next
         }
-        
+
         let next = getNext(of: needle)
         var i = 0
         while i < haystack.count && haystack.count >= i + needle.count {
@@ -62,11 +89,11 @@ class Solution {
                 }
                 j += 1
             }
-            
+
             if j == needle.count {
                 return i
             }
-            
+
             // 下一次从最长前缀后往前回滚前后缀相等的长度
             i += j - next[j]
         }
