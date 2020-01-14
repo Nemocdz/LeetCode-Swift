@@ -47,8 +47,8 @@ class Solution {
         var i = 0
         for j in 1..<nums.count {
             if nums[i] != nums[j] {
-                nums[i] = nums[j]
                 i += 1
+                nums[i] = nums[j]
             }
         }
         
