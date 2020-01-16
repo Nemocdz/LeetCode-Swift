@@ -24,18 +24,23 @@ import Cocoa
 */
 
 let nums = [1, 3, 5, 6]
-let target = 7
+let target = 0
 
 class Solution {
     func searchInsert(_ nums: [Int], _ target: Int) -> Int {
-        var result = nums.count
-        for (index, num) in nums.enumerated(){
-            if num >= target {
-                result = index
-                break
+        var start = 0
+        var end = nums.count - 1
+        while start <= end {
+            let mid = (start + end) / 2
+            if nums[mid] > target {
+                end -= 1
+            } else if nums[mid] < target {
+                start += 1
+            } else {
+                return mid
             }
         }
-        return result
+        return start
     }
 }
 

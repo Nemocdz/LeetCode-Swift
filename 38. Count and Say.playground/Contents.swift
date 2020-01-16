@@ -19,36 +19,28 @@ import Cocoa
 
 class Solution {
     func countAndSay(_ n: Int) -> String {
-        guard n > 0 else {
-            return ""
-        }
-        if n == 1 {
+        if n <= 1 {
             return "1"
-        }else if n == 2 {
-            return "11"
         }
-        let numString = countAndSay(n - 1)
-        var result = ""
-        var temp = numString.first!
-        var startIndex = 0
         
-        for (index, c) in numString.enumerated().dropFirst() {
-            if index == numString.count - 1 {
-                if c == temp {
-                    result += "\(index - startIndex + 1)\(temp)"
-                } else {
-                    result += "\(index - startIndex)\(temp)"
-                    result += "1\(c)"
-                }
-            } else {
-                if c != temp {
-                    result += "\(index - startIndex)\(temp)"
-                    startIndex = index
-                    temp = c
-                }
+        let pre = countAndSay(n - 1)
+        var answer = ""
+        
+        var stack = [Character]()
+        
+        for c in pre {
+            if let last = stack.last, last != c {
+                answer.append("\(stack.count)\(last)")
+                stack.removeAll()
             }
+            stack.append(c)
         }
-        return result
+        
+        if let last = stack.last {
+            answer.append("\(stack.count)\(last)")
+        }
+        
+        return answer
     }
 }
 
