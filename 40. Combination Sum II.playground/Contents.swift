@@ -31,33 +31,29 @@ import Cocoa
 
 class Solution {
     func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
-        var result = [[Int]]()
-        guard !candidates.isEmpty else {
-            return result
+        if candidates.isEmpty {
+            return []
         }
-        var candidates = candidates
-        candidates.sort()
-        _combinationSum(&result, [Int](), candidates, target, 0)
-        return result
-    }
-    
-    func _combinationSum(_ result:inout [[Int]], _ temp:[Int], _ candidates:[Int], _ remain:Int, _ start:Int) {
-        if remain < 0 {
-            return
-        } else if remain == 0 {
-            result.append(temp)
-        } else {
-            for index in start..<candidates.count {
-                let num = candidates[index]
-                guard index == start || num != candidates[index - 1] else {
-                    continue
+        
+        var answers = [[Int]]()
+        let nums = candidates.sorted()
+        var temp = [Int]()
+        func _sum(_ nums:[Int], target:Int) {
+            if target == 0 {
+                answers.append(temp)
+            } else if target > 0 {
+                for (index, num) in nums.enumerated() {
+                    if (index > 0 && num == nums[index - 1]) {
+                        continue
+                    }
+                    temp.append(num)
+                    _sum(Array(nums[(index + 1)...]), target: target - num)
+                    temp.removeLast()
                 }
-                var temp = temp
-                temp.append(num)
-                _combinationSum(&result, temp, candidates, remain - num, index + 1)
-                temp.removeLast()
             }
         }
+        _sum(nums, target: target)
+        return answers
     }
 }
 

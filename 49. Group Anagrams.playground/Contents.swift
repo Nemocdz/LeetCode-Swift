@@ -17,16 +17,16 @@ import Cocoa
 class Solution {
     func groupAnagrams(_ strs: [String]) -> [[String]] {
         var dic = [[Character]:[String]]()
-        for string in strs {
-            let key = string.sorted()
+        for s in strs {
+            let key = s.sorted()
             if var group = dic[key] {
-                group.append(string)
+                group.append(s)
                 dic[key] = group
             } else {
-                dic[key] = [string]
+                dic[key] = [s]
             }
         }
-        return dic.map{ _, value in value }
+        return [[String]](dic.values)
     }
 }
 
