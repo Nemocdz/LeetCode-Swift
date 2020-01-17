@@ -29,26 +29,31 @@ public class Interval {
  
 class Solution {
     func merge(_ intervals: [Interval]) -> [Interval] {
-        guard !intervals.isEmpty else {
+        if intervals.isEmpty {
             return []
         }
-        var intervals = intervals
-        intervals.sort { $0.start < $1.start ? true : ($0.start == $1.start ? $0.end < $1.end : false) }
         
-
-        var result = [Interval]()
+        let intervals = intervals.sorted {
+            if $0.start < $1.start {
+                return true
+            } else if $0.start > $0.start {
+                return false
+            } else {
+                return $0.end < $1.end
+            }
+        }
+    
+        var answers = [Interval]()
         var lastInterval = intervals.first!
-        for interval in intervals.dropFirst(){
+        for interval in intervals.dropFirst() {
             if interval.start <= lastInterval.end {
                 lastInterval = Interval(lastInterval.start, max(interval.end, lastInterval.end))
             } else {
-                result.append(lastInterval)
+                answers.append(lastInterval)
                 lastInterval = interval
             }
         }
-        
-        result.append(lastInterval)
-        
-        return result
+        answers.append(lastInterval)
+        return answers
     }
 }

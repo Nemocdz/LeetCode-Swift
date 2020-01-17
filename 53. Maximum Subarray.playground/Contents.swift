@@ -13,24 +13,26 @@ import Cocoa
  如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的分治法求解。
 */
 
-let s = [8, -19, 5, -4, 20]
+//let s = [8, -19, 5, -4, 20]
 //let s = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 //let s = [1, 2]
 //let s = [-1, -2]
+let s = [-1, 0, -2]
 class Solution {
     func maxSubArray(_ nums: [Int]) -> Int {
-        var sum = nums.first!
-        var result = sum
-        for num in nums.dropFirst(){
-            sum += num
-            if num > sum {
-                sum = num
-            }
-            if sum > result {
-                result = sum
-            }
+        if nums.isEmpty {
+            return 0
         }
-        return result
+        
+        var temp = nums.first!
+        var answer = temp
+        
+        for num in nums.dropFirst() {
+            temp += num
+            temp = max(num, temp)
+            answer = max(temp, answer)
+        }
+        return answer
     }
 }
 
