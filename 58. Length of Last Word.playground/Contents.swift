@@ -15,9 +15,25 @@ import Cocoa
 
 class Solution {
     func lengthOfLastWord(_ s: String) -> Int {
-        guard let last = s.split(separator: " ").last else {
+        var start:Int? = nil
+        var end:Int? = nil
+        for (index, c) in s.enumerated().reversed() {
+            if c != " " && end == nil {
+                end = index
+            }
+            
+            if c == " " && end != nil {
+                start = index
+                break
+            }
+        }
+        
+        if let end = end {
+            return end - (start ?? -1)
+        } else {
             return 0
         }
-        return last.count
     }
 }
+
+Solution().lengthOfLastWord(" ")

@@ -29,25 +29,18 @@ import Cocoa
 
 class Solution {
     func getPermutation(_ n: Int, _ k: Int) -> String {
-        var factorial = [1]
-        var sum = 1
-        for index in 1..<n + 1{
-            sum *= index
-            factorial.append(sum)
+        // f(n,k) = n_list[k/(n-1)!] + f(n-1,k%(n-1)!)
+        var factorial = (1...n + 1).map { $0 }
+        for index in 1..<n {
+            factorial[index] = factorial[index - 1] * index
         }
-        
-        var nums = (1..<n + 1).map{ $0 }
-        
-        var k = k - 1
-        var result = ""
-        for index in 1..<n + 1 {
-            let a = k / factorial[n - index]
-            result += "\(nums[a])"
-            nums.remove(at: a)
-            k -= a * factorial[n - index]
+        var nList = (1..<n + 1).map{ $0 }
+        func _getPermutation(n:Int, k:Int) -> String {
+            return n == 1 ? "\(nList.first!)" : "\(nList.remove(at: k / factorial[n - 1]))" + _getPermutation(n: n - 1, k: k % factorial[n - 1])
         }
-        
-        return result
-        
+        // k 转为 index
+        return _getPermutation(n: n, k: k - 1)
     }
 }
+
+Solution().getPermutation(4, 9)
