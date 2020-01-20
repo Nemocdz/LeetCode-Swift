@@ -30,21 +30,21 @@ import Cocoa
 
 class Solution {
     func uniquePaths(_ m: Int, _ n: Int) -> Int {
-        if m > n {
-            return uniquePaths(n, m)
-        }
-        var lastTops = [Int](repeating: 1, count: m)
-        var lastLeft = 1
-        var result = 0
-        for _ in 1..<n {
+        var paths = (0..<n).map{_ in (0..<m).map{_ in 1}}
+        for i in 1..<n {
             for j in 1..<m {
-                lastLeft = j == 1 ? 1 : result
-                result = lastLeft + lastTops[j]
-                lastTops[j] = result
+                paths[i][j] = paths[i][j - 1] + paths[i - 1][j]
             }
         }
-        return result
+        return paths.last!.last!
     }
+// 会超时
+//    func uniquePaths(_ m: Int, _ n: Int) -> Int {
+//        if m == 1 || n == 1 {
+//            return 1
+//        }
+//        return uniquePaths(m - 1, n) + uniquePaths(m, n - 1)
+//    }
 }
 
-Solution().uniquePaths(3, 2)
+Solution().uniquePaths(7, 3)

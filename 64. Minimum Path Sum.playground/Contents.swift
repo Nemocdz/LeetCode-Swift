@@ -9,9 +9,9 @@ import Cocoa
  
  输入:
  [
-     [1,3,1],
- [1,5,1],
- [4,2,1]
+    [1,3,1],
+    [1,5,1],
+    [4,2,1]
  ]
  输出: 7
  解释: 因为路径 1→3→1→1→1 的总和最小。
@@ -19,20 +19,20 @@ import Cocoa
 
 class Solution {
     func minPathSum(_ grid: [[Int]]) -> Int {
-        guard grid.count > 0 else {
+        if grid.last?.last == nil {
             return 0
         }
-        var paths = [[Int]](repeating: [Int](repeating: 0, count: grid.first!.count), count: grid.count)
+        var paths = grid.map{ $0.map{_ in Int.max }}
         for (i, row) in grid.enumerated() {
-            for (j, column) in row.enumerated() {
+            for (j, point) in row.enumerated() {
                 if i == 0 && j == 0 {
-                    paths[i][j] = column
+                    paths[i][j] = point
                 } else if i == 0 {
-                    paths[i][j] = paths[i][j - 1] + column
+                    paths[i][j] = paths[i][j - 1] + point
                 } else if j == 0 {
-                    paths[i][j] = paths[i - 1][j] + column
+                    paths[i][j] = paths[i - 1][j] + point
                 } else {
-                    paths[i][j] = min(paths[i - 1][j], paths[i][j - 1]) + column
+                    paths[i][j] = min(paths[i - 1][j], paths[i][j - 1]) + point
                 }
             }
         }

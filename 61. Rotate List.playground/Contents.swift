@@ -35,41 +35,27 @@ public class ListNode {
 
 class Solution {
     func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {
-        guard let head = head else {
-            return nil
-        }
-        let n = k % head.size
-        var result = head
-        for _ in 0..<n {
-            result = roateRight(result)
-        }
-        return result
-    }
-    
-    func roateRight(_ head: ListNode) -> ListNode{
-        if head.next == nil {
+        if head == nil || head?.next == nil {
             return head
         }
-        var current = head
-        var pre: ListNode? = nil
-        while let next = current.next {
-            pre = current
-            current = next
+        
+        var tail = head
+        var size = 1
+        while let next = tail?.next {
+            size += 1
+            tail = next
         }
-        current.next = head
-        pre?.next = nil
-        return current
-    }
-}
-
-extension ListNode{
-    var size:Int{
-        var temp:ListNode? = self
-        var result = 1
-        while temp?.next != nil {
-            result += 1
-            temp = temp?.next
+        tail?.next = head
+        
+        // new head = size - k % size
+        // new tail = size - k % size - 1
+        tail = head
+        for _ in 0..<(size - k % size - 1) {
+            tail = tail?.next
         }
-        return result
+        
+        let newHead = tail?.next
+        tail?.next = nil
+        return newHead
     }
 }
