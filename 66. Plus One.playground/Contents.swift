@@ -23,24 +23,29 @@ let s = [9, 9, 9]
 
 class Solution {
     func plusOne(_ digits: [Int]) -> [Int] {
-        var result = digits
-        var indexs = [Int]()
-        for (index, value) in digits.enumerated().reversed() {
-            indexs.append(index)
-            if value < 9 {
-                break
+        if digits.isEmpty {
+            return []
+        }
+        var answer = digits
+        var flag = false
+        for (index, num) in digits.enumerated().reversed() {
+            if num >= 9 {
+                if !flag {
+                    answer[index] = 0
+                }
+            } else {
+                if !flag {
+                    answer[index] = num + 1
+                }
+                flag = true
             }
         }
         
-        for index in indexs{
-            result[index] = (result[index] + 1) % 10
+        if answer.first! == 0 {
+            answer.insert(1, at: 0)
         }
         
-        if indexs.last! == 0 && digits.first! == 9{
-            result.insert(1, at: 0)
-        }
-        
-        return result
+        return answer
     }
 }
 

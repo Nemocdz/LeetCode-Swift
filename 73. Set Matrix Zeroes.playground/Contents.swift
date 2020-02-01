@@ -40,36 +40,21 @@ import Cocoa
 
 class Solution {
     func setZeroes(_ matrix: inout [[Int]]) {
-        var firstColumn = false
+        var rowIndexs = Set<Int>()
+        var columnIndexs = Set<Int>()
+        
         for (i, row) in matrix.enumerated() {
-            for (j, column) in row.enumerated(){
-                if column == 0 {
-                    if j == 0 {
-                        firstColumn = true
-                    } else {
-                        matrix[0][j] = 0
-                        matrix[i][0] = 0
-                    }
-                }
-            }
-        }
-        for (i, row) in matrix.enumerated().dropFirst() {
-            for (j, _) in row.enumerated().dropFirst() {
-                if matrix[0][j] == 0 || matrix[i][0] == 0 {
-                    matrix[i][j] = 0
+            for (j, num) in row.enumerated() {
+                if num == 0 {
+                    rowIndexs.insert(i)
+                    columnIndexs.insert(j)
                 }
             }
         }
         
-        if matrix.first?.first == 0 {
-            for j in 0..<matrix.first!.count {
-                matrix[0][j] = 0
-            }
-        }
-        
-        if firstColumn {
-            for i in 0..<matrix.count {
-                matrix[i][0] = 0
+        matrix = matrix.enumerated().map { i, row in
+            row.enumerated().map { j, num in
+                return rowIndexs.contains(i) || columnIndexs.contains(j) ? 0 : num
             }
         }
     }

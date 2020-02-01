@@ -21,49 +21,45 @@ import Cocoa
 
 class Solution {
     func exist(_ board: [[Character]], _ word: String) -> Bool {
-        guard !board.isEmpty else {
-            return false
-        }
-        
         var visit = board.map{ $0.map{_ in false } }
-        
+        let height = board.count
+        let width = board.first?.count ?? 0
         func find(_ row:Int, _ column:Int, _ word:String) -> Bool{
-            guard !visit[row][column] else {
-                return false
-            }
             if word.isEmpty {
                 return true
             }
-            let s = word.first!
-            var result = false
-            let aWord = String(word.dropFirst())
+            
+            if row < 0 || row >= height || column < 0 || column >= width {
+                return false
+            }
+            
+            if visit[row][column] {
+                return false
+            }
+            
+            var word = word
+            let s = word.removeFirst()
+            if s != board[row][column] {
+                return false
+            }
             
             visit[row][column] = true
-            
-            if row > 0 && s == board[row - 1][column] && !result {
-                result = find(row - 1, column, aWord)
+            let isFind = find(row - 1, column, word) || find(row, column - 1, word) || find(row + 1, column, word) || find(row, column + 1, word)
+            if !isFind {
+                visit[row][column] = false
             }
-            if column > 0 && s == board[row][column - 1] && !result {
-                result = find(row, column - 1, aWord)
-            }
-            if row < board.count - 1 && s == board[row + 1][column] && !result{
-                result = find(row + 1, column, aWord)
-            }
-            if column < board.first!.count - 1 && s == board[row][column + 1] && !result {
-                result = find(row, column + 1, aWord)
-            }
-            
-            visit[row][column] = result ? true : false
-            return result
+            return isFind
         }
-        var result = false
-        for row in 0..<board.count {
-            for column in 0..<board.first!.count {
-                if word.first! == board[row][column] && !result {
-                    result = find(row, column, String(word.dropFirst()))
+        
+        for row in 0..<height {
+            for column in 0..<width {
+                if find(row, column, word) {
+                    return true
                 }
             }
         }
-        return result
+        return false
     }
 }
+
+Solution().exist([["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "ABCB")

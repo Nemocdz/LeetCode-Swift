@@ -27,25 +27,26 @@ public class ListNode {
 
 class Solution {
     func deleteDuplicates(_ head: ListNode?) -> ListNode? {
-        guard let head = head else {
+        if head == nil {
             return nil
         }
         
-        let newHead = ListNode(-1)
-        newHead.next = head
-        var pre = newHead
-        var current:ListNode? = head
-        while current != nil {
-            while current!.next != nil && current!.val == current!.next!.val {
-                current = current!.next!
+        let fake = ListNode(-1)
+        fake.next = head
+        
+        var slow:ListNode? = fake
+        var fast = head
+        
+        while fast != nil {
+            if fast?.val != fast?.next?.val {
+                if slow?.next === fast {
+                    slow = fast
+                } else {
+                    slow?.next = fast?.next
+                }
             }
-            if pre.next! === current! {
-                pre = pre.next!
-            } else {
-                pre.next = current!.next
-            }
-            current = current!.next
+            fast = fast?.next
         }
-        return newHead.next
+        return fake.next
     }
 }

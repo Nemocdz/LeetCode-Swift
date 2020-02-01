@@ -29,25 +29,19 @@ import Cocoa
 
 class Solution {
     func searchMatrix(_ matrix: [[Int]], _ target: Int) -> Bool {
-        guard !matrix.isEmpty && !matrix.first!.isEmpty else {
+        if matrix.first?.first == nil {
             return false
         }
-        var result = false
+        
         for row in matrix.reversed() {
-            if row.first! == target {
-                result = true
-                break
-            } else if row.first! > target {
+            if row.first! > target {
                 continue
+            } else if row.first! < target {
+                return row.contains(target)
             } else {
-                for column in row {
-                    if column == target {
-                        result = true
-                        break
-                    }
-                }
+                return true
             }
         }
-        return result
+        return false
     }
 }

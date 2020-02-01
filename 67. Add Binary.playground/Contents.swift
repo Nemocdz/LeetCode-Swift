@@ -20,24 +20,22 @@ let b = "11010100101110111000111110011000101010000110101110101000001101101100101
 
 class Solution {
     func addBinary(_ a: String, _ b: String) -> String {
-        var result = ""
+        var answer = ""
         var index1 = a.count - 1
         var index2 = b.count - 1
         var carry = 0
         
         while index1 >= 0 || index2 >= 0 || carry > 0 {
-            let s1 = index1 >= 0 ? Int(String(a[String.Index.init(encodedOffset: index1)]))! : 0
-            let s2 = index2 >= 0 ? Int(String(b[String.Index.init(encodedOffset: index2)]))! : 0
+            let s1 = index1 >= 0 ? Int(String(a[.init(utf16Offset: index1, in: a)]))! : 0
+            let s2 = index2 >= 0 ? Int(String(b[.init(utf16Offset: index2, in: b)]))! : 0
             let sum = s1 + s2 + carry
             carry = sum >= 2 ? 1 : 0
-            
-            result = "\(sum % 2)" + result
-            
+            answer += "\(sum % 2)"
             index1 -= 1
             index2 -= 1
         }
         
-        return result
+        return answer
     }
 }
 

@@ -23,14 +23,12 @@ import Cocoa
 
 class Solution {
     func search(_ nums: [Int], _ target: Int) -> Bool {
-        var result = false
         var start = 0
         var end  = nums.count - 1
         while start <= end {
             let mid = (start + end) / 2
             if nums[mid] == target {
-                result = true
-                break
+                return true
             }
             
             if nums[start] == nums[mid] && nums[end] == nums[mid] {
@@ -50,6 +48,6 @@ class Solution {
                 }
             }
         }
-        return result
+        return false
     }
 }
