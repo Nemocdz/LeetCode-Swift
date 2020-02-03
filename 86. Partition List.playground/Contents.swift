@@ -38,25 +38,27 @@ let a = ListNode([1, 4, 3, 2, 5, 2])
  
 class Solution {
     func partition(_ head: ListNode?, _ x: Int) -> ListNode? {
-        let littleHead = ListNode(-1)
-        let bigHead =  ListNode(-1)
-        var current = head
-        var littleCurrent = littleHead
-        var bigCurrent = bigHead
-        while current != nil {
-            if current!.val >= x {
-                bigCurrent.next = current
-                bigCurrent = current!
+        let small = ListNode(-1)
+        let big = ListNode(-1)
+        var temp = head
+        var smallTemp:ListNode? = small
+        var bigTemp:ListNode? = big
+        while temp != nil {
+            if temp!.val < x {
+                smallTemp?.next = temp
+                smallTemp = smallTemp?.next
             } else {
-                littleCurrent.next = current
-                littleCurrent = current!
+                bigTemp?.next = temp
+                bigTemp = bigTemp?.next
             }
-            current = current!.next
+            
+            temp = temp?.next
         }
         
-        bigCurrent.next = nil
-        littleCurrent.next = bigHead.next
-        return littleHead.next
+        smallTemp?.next = big.next
+        bigTemp?.next = nil
+        
+        return small.next
     }
 }
 

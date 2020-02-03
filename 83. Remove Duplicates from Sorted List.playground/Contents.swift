@@ -42,23 +42,25 @@ let a  = ListNode([1, 1, 2, 3, 3])
 
 class Solution {
     func deleteDuplicates(_ head: ListNode?) -> ListNode? {
-        guard let head = head else {
+        if head == nil {
             return nil
         }
         
-        let newHead = ListNode(-1)
-        newHead.next = head
-        var pre = newHead
-        var current:ListNode? = head
-        while current != nil {
-            while current!.next != nil && current!.val == current!.next!.val {
-                current = current!.next!
+        let fake = ListNode(-1)
+        fake.next = head
+        
+        var slow:ListNode? = fake
+        var fast = head
+        
+        while fast != nil {
+            if fast?.val == fast?.next?.val {
+                slow?.next = fast?.next
+            } else {
+                slow = slow?.next
             }
-            pre.next = current!
-            pre = current!
-            current = current!.next
+            fast = fast?.next
         }
-        return newHead.next
+        return fake.next
     }
 }
 

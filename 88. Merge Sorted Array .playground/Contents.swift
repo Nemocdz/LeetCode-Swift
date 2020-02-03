@@ -24,11 +24,30 @@ let n = 3
 
 class Solution {
     func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
-        for index in 0..<n {
-            nums1[m + index] = nums2[index]
-        }
-        nums1.sort()
+        var i = m - 1
+        var j = n - 1
+        var k = m + n - 1
         
+        while i >= 0 || j >= 0 {
+            if i >= 0 && j < 0 {
+                nums1[k] = nums1[i]
+                i -= 1
+                k -= 1
+            } else if i < 0 && j >= 0 {
+                nums1[k] = nums2[j]
+                j -= 1
+                k -= 1
+            } else {
+                if nums1[i] > nums2[j] {
+                    nums1[k] = nums1[i]
+                    i -= 1
+                } else {
+                    nums1[k] = nums2[j]
+                    j -= 1
+                }
+                k -= 1
+            }
+        }
     }
 }
 
