@@ -24,17 +24,35 @@ import Cocoa
 class Solution {
     func numDecodings(_ s: String) -> Int {
         if s == "" {
-            return 1
+            return 0
         }
-        var result = 1
-        var pre = ""
-        var preResult = 0
-        for c in s {
-            let current = String(c)
-            let num = Int(pre + current)!
-            (preResult, result) = (result, result * ((Int(current)! > 0) ? 1 : 0) + ((num > 9 && num < 27) ? 1 : 0) * preResult)
-            pre = current
+        
+        // f[-1] = 1
+        var pre = 1
+        // f[0] = 1
+        var cur = 1
+        
+        for i in 1..<s.count {
+            let preNum = Int(String(s[.init(utf16Offset: i - 1, in: s)]))!
+            let num = Int(String(s[.init(utf16Offset: i, in: s)]))!
+            
+            let temp = cur
+            if num == 0 {
+                if preNum == 1 || preNum == 2 {
+                    // f[n] = f[n - 2]
+                    cur = pre
+                } else {
+                    return 0
+                }
+            } else if (preNum == 1) || (preNum == 2 && num >= 1 && num <= 6) {
+                // f[n] = f[n - 1] + f[n - 2]
+                cur = cur + pre
+            } else {
+                // f[n] = f[n - 1]
+            }
+            pre = temp
         }
-        return result
+        
+        return cur
     }
 }

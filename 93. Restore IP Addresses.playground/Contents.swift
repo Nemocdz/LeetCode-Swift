@@ -11,47 +11,37 @@ import Cocoa
 
 class Solution {
     func restoreIpAddresses(_ s: String) -> [String] {
-        var result = [String]()
-        guard s.count >= 4 else {
-            return result
+        if s.count < 4 {
+            return []
         }
-        for i in 0..<min(4, s.count - 2) {
-            for j in i + 1..<min(i + 4, s.count - 1) {
-                for k in j + 1..<min(j + 4, s.count) {
-                    let a = s.subString(start: 0, end: i)
-                    let b = s.subString(start: i, end: j)
-                    let c = s.subString(start: j, end: k)
-                    let d = s.subString(start: k, end: s.count)
-                    if a.isValidSegment && b.isValidSegment && c.isValidSegment && d.isValidSegment {
-                        result.append(a + "." + b + "." + c + "." + d)
+        
+        var answers = [String]()
+        
+        for i in 1...min(3, s.count - 3) {
+            for j in i + 1...min(i + 3, s.count - 2) {
+                for k in j + 1...min(j + 3, s.count - 1) {
+                    func vaildSegment(_ start:Int, _ end:Int) -> String? {
+                        let startIndex = String.Index(utf16Offset: start, in: s)
+                        let endIndex = String.Index(utf16Offset: end, in: s)
+                        let subString = s[startIndex..<endIndex]
+                        if subString.first! == "0" && subString.count > 1 {
+                            return nil
+                        }
+                        if let num = Int(subString), num >= 0 && num < 256 {
+                            return String(subString)
+                        }
+                        return nil
+                    }
+                    
+                    if let a = vaildSegment(0, i),
+                        let b = vaildSegment(i, j),
+                        let c = vaildSegment(j, k),
+                        let d = vaildSegment(k, s.count) {
+                        answers.append("\(a).\(b).\(c).\(d)")
                     }
                 }
             }
         }
-        return result
-    }
-}
-
-extension String{
-    var isValidSegment:Bool {
-        if isEmpty {
-            return false
-        }
-        if count > 3 {
-            return false
-        }
-        if first! == "0" && count > 1 {
-            return false
-        }
-        if Int(self)! > 255 {
-            return false
-        }
-        return true
-    }
-    
-    func subString(start:Int, end:Int) -> String {
-        let startIndex = String.Index(encodedOffset: start)
-        let endIndex = String.Index(encodedOffset: end)
-        return String(self[startIndex..<endIndex])
+        return answers
     }
 }

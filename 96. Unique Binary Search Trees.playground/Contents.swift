@@ -23,26 +23,26 @@ class Solution {
         if n == 0 {
             return 0
         }
-        var results = [Int]()
-        return numTrees(n, &results)
-    }
-
-    func numTrees(_ n: Int, _ results: inout [Int]) -> Int {
-        if n < results.count {
-            return results[n]
-        }
-        if n == 0 {
-            results.append(1)
-            return 1
+        
+        var cache = [0:1]
+        
+        func _numTrees(_ n:Int) -> Int {
+            if let num = cache[n] {
+                return num
+            }
+            
+            var answer = 0
+            for num in 1...n {
+                let small = num - 1
+                let big = n - num
+                answer += _numTrees(small) * _numTrees(big)
+            }
+            
+            cache[n] = answer
+            return answer
         }
         
-        var result = 0
-        for num in 0..<n {
-            result += numTrees(num, &results) * numTrees(n - num - 1, &results)
-        }
-        
-        results.append(result)
-        return result
+        return _numTrees(n)
     }
 }
 

@@ -32,25 +32,20 @@ public class TreeNode {
  
 class Solution {
     func inorderTraversal(_ root: TreeNode?) -> [Int] {
-        var result = [Int]()
-        inorderTraversal(root, &result)
-        return result
-    }
-    
-    func inorderTraversal(_ root:TreeNode?, _ nodes:inout [Int]){
-        guard let root = root else { return }
-        if root.left == nil && root.right == nil {
-            nodes.append(root.val)
-            return
-        }
-        if let left = root.left {
-            inorderTraversal(left, &nodes)
+        var answers = [Int]()
+        func _inorderTraversal(_ root: TreeNode) {
+            if let left = root.left {
+                _inorderTraversal(left)
+            }
+            answers.append(root.val)
+            if let right = root.right {
+                _inorderTraversal(right)
+            }
         }
         
-        nodes.append(root.val)
-        
-        if let right = root.right {
-            inorderTraversal(right, &nodes)
+        if let root = root {
+            _inorderTraversal(root)
         }
+        return answers
     }
 }

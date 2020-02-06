@@ -62,15 +62,15 @@ class Solution {
             return true
         }
         
-        guard let p = p, let q = q, p.val == q.val else {
+        if p?.val != q?.val {
             return false
         }
         
-        guard isSameTree(p.left, q.left) && isSameTree(p.right, q.right) else {
-            return false
+        if isSameTree(p?.left, q?.left) && isSameTree(p?.right, q?.right) {
+            return true
         }
         
-        return true
+        return false
     }
 }
 

@@ -44,41 +44,23 @@ class Solution {
         if n == 0 {
             return []
         }
-        let nums = (1..<n + 1).map{$0}
-        return generateTrees(nums)
-    }
-    
-    func generateTrees(_ nums: [Int]) -> [TreeNode?] {
-        var result = [TreeNode]()
-        for i in nums {
-            let (small, big) = nums.split(i)
-            let smalls = generateTrees(small)
-            let bigs = generateTrees(big)
-            for s in smalls {
-                for b in bigs {
-                    let root = TreeNode(i)
-                    root.left = s
-                    root.right = b
-                    result.append(root)
+        
+        func _generateTrees(_ nums: [Int]) -> [TreeNode?] {
+            var answers = [TreeNode?]()
+            for num in nums {
+                for left in _generateTrees(nums.filter{ $0 < num }) {
+                    for right in _generateTrees(nums.filter{ $0 > num }) {
+                        let root = TreeNode(num)
+                        root.left = left
+                        root.right = right
+                        answers.append(root)
+                    }
                 }
             }
+            return answers.isEmpty ? [nil] : answers
         }
-        return result.isEmpty ? [nil] : result
-    }
-}
-
-extension Array where Element == Int{
-    func split(_ x:Int) -> ([Int], [Int]) {
-        var small = [Int]()
-        var big = [Int]()
-        for num in self {
-            if num > x {
-                big.append(num)
-            } else if num < x {
-                small.append(num)
-            }
-        }
-        return (small, big)
+        
+        return _generateTrees((1...n).map{ $0 })
     }
 }
 
