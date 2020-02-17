@@ -19,21 +19,27 @@ let s = [3, 2, 3]
 
 class Solution {
     func majorityElement(_ nums: [Int]) -> Int {
-        var balance = 1
-        var result = nums.first!
+        if nums.isEmpty {
+            return -1
+        }
+        
+        var answer = nums.first!
+        var times = 1
+        
         for num in nums.dropFirst() {
-            if num == result {
-                balance += 1
+            if answer == num {
+                times += 1
+            } else if times == 0 {
+                answer = num
+                times = 1
             } else {
-                balance -= 1
-                if balance == 0 {
-                    result = num
-                    balance = 1
-                }
+                times -= 1
             }
         }
-        return result
+        
+        return answer
     }
+
 }
 
 Solution().majorityElement(s)

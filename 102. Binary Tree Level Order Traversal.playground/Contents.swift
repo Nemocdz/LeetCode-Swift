@@ -36,32 +36,43 @@ public class TreeNode {
  
 class Solution {
     func levelOrder(_ root: TreeNode?) -> [[Int]] {
-        guard let root = root else {
+        if root == nil {
             return []
         }
-        var queue = [(Int, TreeNode)]()
-        queue.append((0, root))
-        var result = [[Int]()]
+        
+        var queue = [root!]
+        var answers = [[Int]]()
+        
+        // 当前层剩余
+        var cur = 1
+        // 下层应有
+        var next = 0
+        var temp = [Int]()
         while !queue.isEmpty {
-            let (deep, node) = queue.removeFirst()
-            if result.count <= deep {
-                result.append([Int]())
+            let first = queue.removeFirst()
+            temp.append(first.val)
+            
+            if let left = first.left {
+                queue.append(left)
+                next += 1
             }
             
-            var array = result[deep]
-            array.append(node.val)
-            result[deep] = array
-            
-            let nextDeep = deep + 1
-            if let left = node.left {
-                queue.append((nextDeep, left))
+            if let right = first.right {
+                queue.append(right)
+                next += 1
             }
             
-            if let right = node.right {
-                queue.append((nextDeep, right))
+            cur -= 1
+            
+            if cur == 0 {
+                answers.append(temp)
+                temp.removeAll()
+                cur = next
+                next = 0
             }
         }
-        return result
+        
+        return answers
     }
 }
 

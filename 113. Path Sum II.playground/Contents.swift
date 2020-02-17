@@ -39,21 +39,32 @@ public class TreeNode {
 
 class Solution {
     func pathSum(_ root: TreeNode?, _ sum: Int) -> [[Int]] {
-        var result = [[Int]]()
-        func pathSum(_ root: TreeNode?, _ sum: Int, _ array:[Int]){
-            guard let root = root else { return }
+        var answers = [[Int]]()
+        var temp = [Int]()
+        
+        func findPath(_ root: TreeNode, _ sum: Int) {
             let remain = sum - root.val
-            var array = array
-            array.append(root.val)
+            temp.append(root.val)
+            
             if remain == 0 && root.left == nil && root.right == nil {
-                result.append(array)
-                return
-            } else {
-                pathSum(root.left, remain, array)
-                pathSum(root.right, remain, array)
+                answers.append(temp)
             }
+            
+            if let left = root.left {
+                findPath(left, remain)
+            }
+            
+            if let right = root.right {
+                findPath(right, remain)
+            }
+            
+            temp.removeLast()
         }
-        pathSum(root, sum, [])
-        return result
+        
+        if let root = root {
+            findPath(root, sum)
+        }
+        
+        return answers
     }
 }

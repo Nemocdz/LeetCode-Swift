@@ -25,44 +25,48 @@ import Cocoa
 
 class Solution {
     func spiralOrder(_ matrix: [[Int]]) -> [Int] {
-        guard matrix.count > 0 else {
+        if matrix.first?.first == nil {
             return []
         }
+        
         let height = matrix.count
-        let width = matrix.first!.count
-        var result = [Int]()
-        for offset in 0..<lround(Double(min(height, width)) / 2.0) {
-            if width - offset - 1 > offset {
-                for i in offset..<width - offset - 1{
-                    result.append(matrix[offset][i])
-                }
-                if height - offset - 1 > offset {
-                    for i in offset..<height - offset - 1 {
-                        result.append(matrix[i][width - 1 - offset])
-                    }
-                    
-                    if width - offset > offset + 1 {
-                        for i in (offset + 1..<width - offset).reversed() {
-                            result.append(matrix[height - 1 - offset][i])
-                        }
-                        if height - offset > offset + 1 {
-                            for i in (offset + 1..<height - offset).reversed() {
-                                result.append(matrix[i][offset])
-                            }
-                        }
-                    }
-                } else if offset == height - offset - 1 {
-                    result.append(matrix[offset][width - 1 - offset])
-                }
-            } else if offset == width - offset - 1 {
-                result.append(matrix[offset][offset])
-                if height - offset - 1 > offset {
-                    for i in (offset + 1..<height - offset) {
-                        result.append(matrix[i][offset])
-                    }
+        let width = matrix.first?.count ?? 0
+        
+        var start = 0
+        var answers = [Int]()
+        while height > start * 2 && width > start * 2 {
+            let endX = width - 1 - start
+            let endY = height - 1 - start
+            
+            // 左上 -> 右上
+            for i in start...endX {
+                answers.append(matrix[start][i])
+            }
+            
+            // 左上下1 -> 右下
+            if start < endY {
+                for i in (start + 1)...endY {
+                    answers.append(matrix[i][endX])
                 }
             }
+            
+            // 右下左1 -> 左下
+            if start < endX && start < endY {
+                for i in (start...(endX - 1)).reversed() {
+                    answers.append(matrix[endY][i])
+                }
+            }
+            
+            // 左下上1 -> 右上下1
+            if start < endX && start < endY - 1 {
+                for i in ((start + 1)...(endY - 1)).reversed() {
+                    answers.append(matrix[i][start])
+                }
+            }
+            
+            start += 1
         }
-        return result
+        
+        return answers
     }
 }

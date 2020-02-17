@@ -16,24 +16,25 @@ import Cocoa
 //let s = [8, -19, 5, -4, 20]
 //let s = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 //let s = [1, 2]
-//let s = [-1, -2]
-let s = [-1, 0, -2]
+let s = [-1, -2]
+//let s = [-1, 0, -2]
 class Solution {
     func maxSubArray(_ nums: [Int]) -> Int {
         if nums.isEmpty {
             return 0
         }
         
-        var temp = nums.first!
-        var answer = temp
+        var curSum = 0
+        var answer = Int.min
         
-        for num in nums.dropFirst() {
-            temp += num
-            temp = max(num, temp)
-            answer = max(temp, answer)
+        for num in nums {
+            // 当次选择
+            curSum = max(num, curSum + num)
+            // 历史选择
+            answer = max(answer, curSum)
         }
+        
         return answer
     }
 }
-
 Solution().maxSubArray(s)
