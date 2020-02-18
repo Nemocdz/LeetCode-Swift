@@ -18,32 +18,28 @@ import Cocoa
 
 class Solution {
     func nthUglyNumber(_ n: Int) -> Int {
-        guard n > 0 else {
-            return -1
-        }
+        var uglyNums = [1]
         
-        var uglyNumbers = [1]
-        var i2 = 0
-        var i3 = 0
-        var i5 = 0
+        var index2 = 0
+        var index3 = 0
+        var index5 = 0
         
-        while uglyNumbers.count < n {
-            let v2 = uglyNumbers[i2] * 2
-            let v3 = uglyNumbers[i3] * 3
-            let v5 = uglyNumbers[i5] * 5
-            let v = min(v2, v3, v5)
-            if v == v2 {
-                i2 += 1
+        for _ in 1...n {
+            let next = min(uglyNums[index2] * 2, uglyNums[index3] * 3, uglyNums[index5] * 5)
+            uglyNums.append(next)
+            while uglyNums[index2] * 2 <= next {
+                index2 += 1
             }
-            if v == v3 {
-                i3 += 1
+            
+            while uglyNums[index3] * 3 <= next {
+                index3 += 1
             }
-            if v == v5 {
-                i5 += 1
+            
+            while uglyNums[index5] * 5 <= next {
+                index5 += 1
             }
-            uglyNumbers.append(v)
         }
-        return uglyNumbers.last!
+        return uglyNums[n - 1]
     }
 }
 
