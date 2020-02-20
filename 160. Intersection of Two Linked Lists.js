@@ -56,37 +56,31 @@
  * @return {ListNode}
  */
 var getIntersectionNode = function(headA, headB) {
-    let lengthA = 0;
-    let lengthB = 0;
-    let temp = headA;
-    while (temp !== null){
-        temp = temp.next;
-        lengthA++;
-    }
-    temp = headB;
-    while (temp !== null){
-        temp = temp.next;
-        lengthB++;
-    }
-    temp = headA;
-    let temp2 = headB;
-    if (lengthA > lengthB){
-        for (let i = 0; i < lengthA - lengthB; i++){
-            temp = temp.next;
-        }
-    } else {
-        for (let i = 0; i < lengthB - lengthA; i++){
-            temp2 = temp2.next;
-        }
+    let lengthA = getListLength(headA);
+    let lengthB = getListLength(headB);
+
+    let longHead = lengthA > lengthB ? headA : headB;
+    let shortHead = lengthA > lengthB ? headB : headA;
+    const lengthDiff = lengthA > lengthB ? lengthA - lengthB : lengthB - lengthA;
+
+    for (let i = 0; i < lengthDiff; i++){
+        longHead = longHead.next
     }
 
-    let node = null;
-    while (temp !== null){
-        if (temp === temp2){
-            return temp;
-        }
-        temp = temp.next;
-        temp2 = temp2.next;
+    while (longHead !== null && shortHead !== longHead){
+        longHead = longHead.next;
+        shortHead = shortHead.next;
     }
-    return node;
+
+    return longHead;
+};
+
+var getListLength = function(head) {
+    let length = 0;
+    let temp = head;
+    while (temp !== null){
+        temp = temp.next;
+        length++;
+    }
+    return length;
 };
