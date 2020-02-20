@@ -35,13 +35,15 @@ import Cocoa
 
 class Solution {
     func reverseWords(_ s: String) -> String {
-        var words = s.split(separator: " ").map{ String($0) }
-        words.reverse()
-        if words.isEmpty {
+        if s.isEmpty {
             return ""
-        } else {
-            return words.dropFirst().reduce(words.first!) { $0 + " " + $1 }
         }
+        return String(s
+            .split(separator: " ")
+            .map{ $0 }
+            .reversed()
+            .reduce("") { $0 + " " + $1 }
+            .dropFirst())
     }
 }
 

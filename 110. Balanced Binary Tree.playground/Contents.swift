@@ -54,21 +54,19 @@ root.right?.right = TreeNode(7)
 
 class Solution {
     func isBalanced(_ root: TreeNode?) -> Bool {
-        guard let root = root else {
-            return true
+        func balancedDepth(_ root: TreeNode?) -> Int? {
+            if root == nil {
+                return 0
+            }
+            
+            if let leftDepth = balancedDepth(root?.left), let rightDepth = balancedDepth(root?.right), abs(leftDepth - rightDepth) <= 1 {
+                return 1 + max(leftDepth, rightDepth)
+            }
+            
+            return nil
         }
-        if abs(maxDepth(root.left) - maxDepth(root.right)) <= 1{
-            return isBalanced(root.left) && isBalanced(root.right)
-        } else {
-            return false
-        }
-    }
-    
-    func maxDepth(_ root: TreeNode?) -> Int {
-        guard let root = root else {
-            return 0
-        }
-        return max(maxDepth(root.left), maxDepth(root.right)) + 1
+        
+        return balancedDepth(root) != nil
     }
 }
 
