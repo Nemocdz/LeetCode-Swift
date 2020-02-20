@@ -24,17 +24,18 @@ class Solution {
             return [-1, -1]
         }
         
-        func binarySearch(_ nums:[Int], target:Int, left:Bool) -> Int? {
+        func index(isFirst:Bool) -> Int? {
             var start = 0
             var end = nums.count - 1
             while start <= end {
                 let mid = (start + end) / 2
+                
                 if nums[mid] > target {
                     end = mid - 1
                 } else if nums[mid] < target {
                     start = mid + 1
                 } else {
-                    if left {
+                    if isFirst {
                         end = mid - 1
                     } else {
                         start = mid + 1
@@ -42,16 +43,16 @@ class Solution {
                 }
             }
             
-            // 不越界去比较
-            if left {
-                return start <= nums.count - 1 && nums[start] == target ? start : nil
-            } else {
-                return end >= 0 && nums[end] == target ? end : nil
+            if isFirst && start <= nums.count - 1 && nums[start] == target {
+                return start
+            } else if !isFirst && end >= 0 && nums[end] == target {
+                return end
             }
+            return nil
         }
         
-        if let left = binarySearch(nums, target: target, left: true),
-            let right = binarySearch(nums, target: target, left: false) {
+        if let left = index(isFirst: true),
+            let right = index(isFirst: false) {
             return [left, right]
         }
         
