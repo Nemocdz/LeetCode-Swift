@@ -24,16 +24,20 @@ let prices = [7,1,5,3,6,4]
 
 class Solution {
     func maxProfit(_ prices: [Int]) -> Int {
-        guard prices.count > 1 else {
-            return 0
+        // 第一位用于存储当前最小值
+        var mins = [Int.max]
+        for price in prices.dropLast() {
+            let curMin = min(mins[0], price)
+            mins[0] = curMin
+            mins.append(curMin)
         }
-        var buy = prices.first!
-        var result = 0
-        for index in 1..<prices.count {
-            result = max(result, prices[index] - buy)
-            buy = min(buy, prices[index])
+        
+        var answer = 0
+        //从第二位起算
+        for (price, min) in zip(prices, mins).dropFirst() {
+            answer = max(answer, price - min)
         }
-        return result
+        return answer
     }
 }
 

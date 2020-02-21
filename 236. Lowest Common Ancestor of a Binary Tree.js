@@ -36,17 +36,42 @@ var lowestCommonAncestor = function(root, p, q) {
         return root;
     }
 
-    const leftNode = lowestCommonAncestor(root.left, p, q);
-    const rightNode = lowestCommonAncestor(root.right, p, q);
+    let pPath = [];
+    nodePath(root, p.val, pPath);
 
-    if (leftNode == null) {
-        return rightNode;
-    } else if (rightNode == null) {
-        return leftNode;
-    } else {
-        return root;
+    let qPath = [];
+    nodePath(root, q.val, qPath);
+
+    let answer = null;
+    while (pPath.length > 0 && qPath.length > 0) {
+        const pNode = pPath.shift();
+        const qNode = qPath.shift();
+        if (pNode === qNode) {
+            answer = pNode;
+        }
     }
+
+    return answer;
 };
+
+var nodePath = function(root, val, path) {
+    if (root === null) {
+        return false;
+    }
+
+    path.push(root);
+
+    if (root.val === val) {
+        return true;
+    }
+
+    if (nodePath(root.left, val, path) || nodePath(root.right, val, path)) {
+        return true;
+    }
+
+    path.pop();
+    return false;
+}
 
 
 

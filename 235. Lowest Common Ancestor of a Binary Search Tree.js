@@ -39,22 +39,20 @@
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function(root, p, q) {
-    const pPath = treePath(root, p.val);
-    const qPath = treePath(root, q.val);
-    let result;
-    while(pPath.length > 0 && qPath.length > 0 && pPath[0] === qPath[0]){
-        result = pPath.shift();
-        qPath.shift();
+    let node = root;
+
+    while(node !== null) {
+        // 左子树中
+        if (node.val > p.val && node.val > q.val) {
+            node = node.left;
+        // 右子树中
+        } else if (node.val < p.val && node.val < q.val) {
+            node = node.right;
+        } else {
+            return node;
+        }
     }
-    return new TreeNode(result);
+
+    return null;
 };
 
-var treePath = function(root, value){
-    const path = [root.val];
-    let temp = root;
-    while(temp !== null && temp.val !== value){
-        temp = value < temp.val ? temp.left : temp.right;
-        path.push(temp.val);
-    }
-    return path;
-}
