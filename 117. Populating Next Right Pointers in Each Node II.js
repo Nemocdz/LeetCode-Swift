@@ -42,25 +42,30 @@
  * @return {Node}
  */
 var connect = function(root) {
-    if (root == null) {
+    if (root === null) {
         return null;
     }
+
     let pre = root;
-    while (pre != null) {
-        const temp = new Node(-1);
-        let cur = temp;
-        while (pre != null) {
-            if (pre.left != null) {
+    while (pre !== null) {
+        const fake = new Node(-1);
+        let cur = fake;
+        while (pre !== null) {
+            if (pre.left !== null) {
                 cur.next = pre.left;
                 cur = cur.next;
             }
-            if (pre.right != null) {
+
+            if (pre.right !== null) {
                 cur.next = pre.right;
                 cur = cur.next;
             }
+
             pre = pre.next;
         }
-        pre = temp.next;
+
+        pre = fake.next;
     }
+    
     return root;
 };

@@ -41,20 +41,19 @@ root.right?.right = TreeNode(7)
  
 class Solution {
     func minDepth(_ root: TreeNode?) -> Int {
-        guard let root = root else {
+        if root == nil {
             return 0
         }
-        guard root.left != nil || root.right != nil else{
+        
+        if root?.left == nil && root?.right == nil {
             return 1
+        } else if root?.left != nil && root?.right == nil {
+            return minDepth(root?.left) + 1
+        } else if root?.left == nil && root?.right != nil {
+            return minDepth(root?.right) + 1
+        } else {
+            return min(minDepth(root?.left), minDepth(root?.right)) + 1
         }
-        var result = Int.max
-        if let left = root.left {
-            result = min(minDepth(left),result)
-        }
-        if let right = root.right {
-            result = min(minDepth(right),result)
-        }
-        return result + 1
     }
 }
 

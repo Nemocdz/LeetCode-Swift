@@ -38,17 +38,17 @@ let sum = 9
  
 class Solution {
     func hasPathSum(_ root: TreeNode?, _ sum: Int) -> Bool {
-        guard let root = root else {
+        if root == nil {
             return false
         }
         
-        if root.left == nil && root.right == nil && root.val == sum {
+        let remain = sum - root!.val
+        
+        if remain == 0 && root?.left == nil && root?.right == nil {
             return true
         }
         
-        let remain = sum - root.val
-        
-        return hasPathSum(root.left, remain) || hasPathSum(root.right, remain)
+        return hasPathSum(root?.left, remain) || hasPathSum(root?.right, remain)
     }
 }
 

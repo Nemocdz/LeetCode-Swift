@@ -42,33 +42,43 @@ root.right?.right = TreeNode(7)
 
 class Solution {
     func levelOrderBottom(_ root: TreeNode?) -> [[Int]] {
-        var dic = [Int:[Int]]()
-        var result = [[Int]]()
-        addValToDic(root, dic: &dic, currentHeight: 0)
+        if root == nil {
+            return []
+        }
         
-        if dic.count == 1{
-            result.append([root!.val])
-        } else if dic.count > 1 {
-            for index in 0...dic.count - 1{
-                result.append(dic[dic.count - 1 - index]!)
+        var queue = [root!]
+        var answers = [[Int]]()
+        
+        // 当前层剩余
+        var cur = 1
+        // 下层应有
+        var next = 0
+        var temp = [Int]()
+        while !queue.isEmpty {
+            let first = queue.removeFirst()
+            temp.append(first.val)
+            
+            if let left = first.left {
+                queue.append(left)
+                next += 1
+            }
+            
+            if let right = first.right {
+                queue.append(right)
+                next += 1
+            }
+            
+            cur -= 1
+            
+            if cur == 0 {
+                answers.append(temp)
+                temp.removeAll()
+                cur = next
+                next = 0
             }
         }
-        return result
-    }
-    
-    func addValToDic(_ root:TreeNode?, dic:inout [Int:[Int]], currentHeight: Int) {
-        guard let root = root else {
-            return
-        }
         
-        if dic[currentHeight] == nil {
-            dic[currentHeight] = [Int]()
-        }
-        
-        dic[currentHeight]!.append(root.val)
-        
-        addValToDic(root.left, dic: &dic, currentHeight: currentHeight + 1)
-        addValToDic(root.right, dic: &dic, currentHeight: currentHeight + 1)
+        return answers.reversed()
     }
 }
 

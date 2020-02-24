@@ -17,26 +17,31 @@ import Cocoa
 */
 
 class Solution {
-    
     func getRow(_ rowIndex: Int) -> [Int] {
-        let first = [1]
-        guard rowIndex > 0 else {
-            return first
+        if rowIndex == 0 {
+            return []
         }
-        var lastNums = first
-        for _ in 1...rowIndex {
-            lastNums = create(lastNums)
+        
+        if rowIndex == 1 {
+            return [1]
         }
-        return lastNums
-    }
-    
-    func create(_ lastNums: [Int]) -> [Int] {
-        var result = [1]
-        for index in 0..<lastNums.count - 1 {
-            result.append(lastNums[index] + lastNums[index + 1])
+        
+        var lastRow = [1]
+        
+        func createRow() -> [Int] {
+            var row = [1]
+            for index in 0..<(lastRow.count - 1) {
+                row.append(lastRow[index] + lastRow[index + 1])
+            }
+            row.append(1)
+            return row
         }
-        result.append(1)
-        return result
+        
+        for _ in 0..<(rowIndex - 1) {
+            lastRow = createRow()
+        }
+        
+        return lastRow
     }
 }
 

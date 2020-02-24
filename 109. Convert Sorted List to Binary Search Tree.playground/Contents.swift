@@ -46,24 +46,27 @@ import Cocoa
 
 class Solution {
     func sortedListToBST(_ head: ListNode?) -> TreeNode? {
-        var array = [Int]()
-        var temp = head
-        while temp != nil {
-            array.append(temp!.val)
-            temp = temp?.next
-        }
-        func buildBST(_ array:[Int]) -> TreeNode?{
-            guard !array.isEmpty else {
+        let array: [Int] = {
+            var _array = [Int]()
+            var temp = head
+            while temp != nil {
+                _array.append(temp!.val)
+                temp = temp?.next
+            }
+            return _array
+        }()
+        
+        func _buildBST(_ nums:[Int]) -> TreeNode? {
+            if nums.isEmpty {
                 return nil
             }
-            let rootIndex = array.count / 2
-            let left = Array(array[0..<rootIndex])
-            let right = Array(array[rootIndex + 1..<array.count])
-            let root = TreeNode(array[rootIndex])
-            root.left = buildBST(left)
-            root.right = buildBST(right)
-            return root
+            let mid = nums.count / 2
+            let node = TreeNode(nums[mid])
+            node.left = _buildBST(Array(nums[0..<mid]))
+            node.right = _buildBST(Array(nums[(mid + 1)...]))
+            return node
         }
-        return buildBST(array)
+        
+        return _buildBST(array)
     }
 }

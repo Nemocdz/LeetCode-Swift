@@ -36,15 +36,15 @@ let a = [ -10, -3, 0, 5, 9]
 
 class Solution {
     func sortedArrayToBST(_ nums: [Int]) -> TreeNode? {
-        guard !nums.isEmpty else {
+        if nums.isEmpty {
             return nil
         }
         
         let mid = nums.count / 2
-        let result = TreeNode(nums[mid])
-        result.left = sortedArrayToBST(Array(nums[0..<mid]))
-        result.right = sortedArrayToBST(Array(nums[mid + 1..<nums.count]))
-        return result
+        let node = TreeNode(nums[mid])
+        node.left = sortedArrayToBST(Array(nums[0..<mid]))
+        node.right = sortedArrayToBST(Array(nums[(mid + 1)...]))
+        return node
     }
 }
 

@@ -35,22 +35,21 @@ public class TreeNode {
  
 class Solution {
     func buildTree(_ inorder: [Int], _ postorder: [Int]) -> TreeNode? {
-        func _buildTree(_ postorder: inout [Int], _ inorder: [Int]) -> TreeNode? {
-            guard !inorder.isEmpty else {
+        var postorder = postorder
+        func _buildTree(_ inorder: [Int]) -> TreeNode? {
+            if inorder.isEmpty {
                 return nil
             }
+            
             let rootValue = postorder.removeLast()
             let root = TreeNode(rootValue)
-            if let rootIndex = inorder.firstIndex(of: rootValue) {
-                let left = Array(inorder[0..<rootIndex])
-                let right = Array(inorder[rootIndex + 1..<inorder.count])
-                root.right = _buildTree(&postorder, right)
-                root.left = _buildTree(&postorder, left)
-            }
+            
+            let leftLength = inorder.firstIndex(of: rootValue)!
+
+            root.right = _buildTree(Array(inorder[(leftLength + 1)...]))
+            root.left = _buildTree(Array(inorder[0..<leftLength]))
             return root
         }
-        
-        var postorder = postorder
-        return _buildTree(&postorder, inorder)
+        return _buildTree(inorder)
     }
 }

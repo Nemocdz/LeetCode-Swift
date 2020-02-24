@@ -18,31 +18,32 @@ import Cocoa
 
 class Solution {
     func generate(_ numRows: Int) -> [[Int]] {
-        guard numRows > 0 else {
+        if numRows == 0 {
             return []
         }
-        let first = [1]
-        var result = [first]
         
-        guard numRows > 1 else {
-            return result
+        if numRows == 1 {
+            return [[1]]
         }
         
-        var lastNums = first
-        for _ in 1...numRows - 1 {
-            lastNums = create(lastNums)
-            result.append(lastNums)
+        var lastRow = [1]
+        var answers = [lastRow]
+        
+        func createRow() -> [Int] {
+            var row = [1]
+            for index in 0..<(lastRow.count - 1) {
+                row.append(lastRow[index] + lastRow[index + 1])
+            }
+            row.append(1)
+            return row
         }
-        return result
-    }
-    
-    func create(_ lastNums: [Int]) -> [Int] {
-        var result = [1]
-        for index in 0..<lastNums.count - 1 {
-            result.append(lastNums[index] + lastNums[index + 1])
+        
+        for _ in 0..<(numRows - 1) {
+            lastRow = createRow()
+            answers.append(lastRow)
         }
-        result.append(1)
-        return result
+        
+        return answers
     }
 }
 

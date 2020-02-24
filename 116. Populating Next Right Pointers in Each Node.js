@@ -44,14 +44,14 @@
  * @return {Node}
  */
 var connect = function(root) {
-    if (root == null) {
+    if (root === null) {
         return null;
     }
     let pre = root;
     let cur = null;
-    while (pre.left != null) {
+    while (pre.left !== null) {
         cur = pre;
-        while(cur != null) {
+        while(cur !== null) {
             cur.left.next = cur.right;
             if (cur.next) {
                 cur.right.next = cur.next.left;
