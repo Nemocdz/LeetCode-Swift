@@ -22,24 +22,32 @@ let a = [[2],[3,4],[6,5,7],[4,1,8,3]]
 
 class Solution {
     func minimumTotal(_ triangle: [[Int]]) -> Int {
-        guard !triangle.isEmpty else {
+        if triangle.first?.first == nil {
             return 0
         }
         
-        var triangle = triangle
+        var lastPaths = [Int](repeating: 0, count: triangle.count)
         
-        for (i, _) in triangle.enumerated().dropFirst() {
-            let pre = triangle[i - 1]
-            var current = triangle[i]
-            current[0] += pre[0]
-            current[i] += pre[i - 1]
-            for j in 1..<i {
-                current[j] += min(pre[j], pre[j - 1])
+        // dp[i - 1][j - 1]
+        var pre = 0
+        // dp[i - 1][j]
+        var current = 0
+        
+        for (i, row) in triangle.enumerated() {
+            for j in 0...i {
+                current = lastPaths[j]
+                if j == 0 {
+                    lastPaths[j] = current + row[j]
+                } else if j == i {
+                    lastPaths[j] = pre + row[j]
+                } else {
+                    lastPaths[j] = min(pre, current) + row[j]
+                }
+                pre = current
             }
-            triangle[i] = current
         }
         
-        return triangle.last!.min()!
+        return lastPaths.min()!
     }
 }
 

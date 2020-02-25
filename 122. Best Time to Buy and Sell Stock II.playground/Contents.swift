@@ -28,19 +28,20 @@ import Cocoa
 */
 
 let prices = [7,1,5,3,6,4]
+
 class Solution {
     func maxProfit(_ prices: [Int]) -> Int {
-        guard prices.count > 1 else {
+        if prices.count <= 1 {
             return 0
         }
-        var result = 0
-        for index in 0..<prices.count - 1 {
-            let dif = prices[index + 1] - prices[index]
-            if dif > 0 {
-                result += dif
-            }
+        
+        var answer = 0
+        
+        for i in 1..<prices.count {
+            answer += max(prices[i] - prices[i - 1], 0)
         }
-        return result
+
+        return answer
     }
 }
 
