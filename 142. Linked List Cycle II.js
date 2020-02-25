@@ -44,19 +44,22 @@ var detectCycle = function(head) {
     let fast = head;
 
     do {
-        if (fast == null) {
+        if (fast === null) {
             return null;
         }
+
         fast = fast.next;
-        if (slow == null || fast == null) {
+
+        if (slow === null || fast === null) {
             return null;
         }
+
         fast = fast.next;
         slow = slow.next;
-    } while (fast != slow);
+    } while (fast !== slow);
 
     slow = head;
-    while (slow != fast) {
+    while (slow !== fast) {
         slow = slow.next;
         fast = fast.next;
     }

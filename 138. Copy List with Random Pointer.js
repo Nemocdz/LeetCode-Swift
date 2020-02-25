@@ -28,7 +28,7 @@ var copyRandomList = function(head) {
     let next = head;
 
     // 交替一原始一复制
-    while (temp != null){
+    while (temp !== null){
         next = temp.next;
         const copy = new Node(temp.val);
         temp.next = copy;
@@ -39,9 +39,9 @@ var copyRandomList = function(head) {
     temp = head;
 
     // 给复制加上 random
-    while (temp != null){
+    while (temp !== null){
         // 判断原始是否有 random
-        if (temp.random != null) {
+        if (temp.random !== null) {
             // 将复制的加上原始 random 后面的复制 random
             temp.next.random = temp.random.next;
         }
@@ -56,7 +56,7 @@ var copyRandomList = function(head) {
 
 
     // 分离复制和原始
-    while (temp != null){
+    while (temp !== null){
         // 下一个原始的
         next = temp.next.next;
         // 下一个复制的

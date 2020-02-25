@@ -52,20 +52,21 @@ public class TreeNode {
  
 class Solution {
     func sumNumbers(_ root: TreeNode?) -> Int {
-        var result = 0
+        var answer = 0
         
-        func _sumNumbers(_ root: TreeNode, _ temp:Int){
-            let newTemp = temp * 10 + root.val
+        func _sumNumbers(_ root: TreeNode, _ num:Int){
+            let num = num * 10 + root.val
+            
+            if root.left == nil && root.right == nil {
+                answer += num
+            }
+
             if let left = root.left {
-                _sumNumbers(left, newTemp)
+                _sumNumbers(left, num)
             }
             
             if let right = root.right {
-                _sumNumbers(right, newTemp)
-            }
-            
-            if root.left == nil && root.right == nil {
-                result += newTemp
+                _sumNumbers(right, num)
             }
         }
         
@@ -73,6 +74,6 @@ class Solution {
             _sumNumbers(root, 0)
         }
         
-        return result
+        return answer
     }
 }
