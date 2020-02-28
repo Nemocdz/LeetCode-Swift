@@ -32,14 +32,27 @@ public class TreeNode {
  
 class Solution {
     func preorderTraversal(_ root: TreeNode?) -> [Int] {
-        var result = [Int]()
-        func _preorderTraversal(_ root: TreeNode?) {
-            guard let root = root else { return }
-            result.append(root.val)
-            _preorderTraversal(root.left)
-            _preorderTraversal(root.right)
+        if root == nil {
+            return []
         }
-        _preorderTraversal(root)
-        return result
+        
+        var stack = [root!]
+        var answers = [Int]()
+        
+        while !stack.isEmpty {
+            let root = stack.removeLast()
+            answers.append(root.val)
+            
+            // 先左后右，所以先入右
+            if let right = root.right {
+                stack.append(right)
+            }
+            
+            if let left = root.left {
+                stack.append(left)
+            }
+        }
+        
+        return answers
     }
 }

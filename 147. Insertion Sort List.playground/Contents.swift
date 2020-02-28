@@ -40,23 +40,21 @@ public class ListNode {
  
 class Solution {
     func insertionSortList(_ head: ListNode?) -> ListNode? {
-        guard let head = head else {
-            return nil
-        }
         let fake = ListNode(-1)
-        var current:ListNode? = head
-        var pre:ListNode = fake
-        var next:ListNode? = nil
-        while let aCurrent = current {
-            next = aCurrent.next
-            while let preNext = pre.next, preNext.val < aCurrent.val{
-                pre = preNext
+        var temp = fake
+        var current = head
+        
+        while current != nil {
+            let next = current?.next
+            while let tempNext = temp.next, tempNext.val < current!.val{
+                temp = tempNext
             }
-            aCurrent.next = pre.next
-            pre.next = aCurrent
-            pre = fake
+            current?.next = temp.next
+            temp.next = current
+            temp = fake
             current = next
         }
+        
         return fake.next
     }
 }

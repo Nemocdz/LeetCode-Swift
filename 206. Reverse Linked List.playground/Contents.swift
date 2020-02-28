@@ -25,16 +25,14 @@ public class ListNode {
  
 class Solution {
     func reverseList(_ head: ListNode?) -> ListNode? {
-        guard var head = head else {
-            return nil
+        var pre:ListNode? = nil
+        var current = head
+        while current != nil {
+            let next = current?.next
+            current?.next = pre
+            pre = current
+            current = next
         }
-        
-        let current = head
-        while let next = current.next{
-            current.next = next.next;
-            next.next = head
-            head = next
-        }
-        return head
+        return pre
     }
 }

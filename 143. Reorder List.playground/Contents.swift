@@ -1,4 +1,4 @@
-import Cocoa
+ import Cocoa
 
 /*
  给定一个单链表 L：L0→L1→…→Ln-1→Ln ，
@@ -27,53 +27,42 @@ import Cocoa
 
 class Solution {
     func reorderList(_ head: ListNode?) {
-        var count = 0
-        var temp = head
-        while temp != nil {
-            temp = temp?.next
-            count += 1
-        }
-        
-        let half = count % 2 == 0 ? count / 2 - 1 : count / 2
-        
-        count = 0
-        temp = head
-        while count < half {
-            temp = temp?.next
-            count += 1
-        }
-        
-        func reverseList(_ head: ListNode?) -> ListNode? {
-            guard var head = head else {
-                return nil
+        // 找到中间节点
+        let midNode: ListNode? = {
+            var slow = head
+            var fast = head?.next
+            while fast != nil && fast?.next != nil {
+                slow = slow?.next
+                fast = fast?.next?.next
             }
+            return slow
+        }()
+        
+        func reverseList(_ head:ListNode?) -> ListNode? {
+            var pre:ListNode? = nil
+            var current = head
+            while current != nil {
+                let next = current?.next
+                current?.next = pre
+                pre = current
+                current = next
+            }
+            return pre
+        }
+
+        var left = head
+        var right = reverseList(midNode?.next)
+        midNode?.next = nil
+    
+        while left != nil || right != nil {
+            let leftNext = left?.next
+            let rightNext = right?.next
             
-            let current = head
-            while let next = current.next{
-                current.next = next.next;
-                next.next = head
-                head = next
-            }
-            return head
-        }
-        
-        var new = reverseList(temp?.next)
-        
-        
-        temp?.next = nil
-        
-        temp = head
-        
-        while temp != nil || new != nil {
-            if let a = temp {
-                temp = temp?.next
-                a.next = new
-            }
+            left?.next = right
+            right?.next = leftNext
             
-            if let b = new {
-                new = new?.next
-                b.next = temp
-            }
+            left = leftNext
+            right = rightNext
         }
     }
 }
