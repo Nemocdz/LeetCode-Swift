@@ -21,7 +21,6 @@ let target = 9
 
 class Solution {
     func twoSum(_ numbers: [Int], _ target: Int) -> [Int] {
-        var result = [Int]()
         var start = 0
         var end = numbers.count - 1
         
@@ -32,12 +31,11 @@ class Solution {
             } else if sum > target {
                 end -= 1
             } else {
-                result = [start + 1, end + 1]
-                break
+                return [start + 1, end + 1]
             }
         }
         
-        return result
+        return []
     }
 }
 

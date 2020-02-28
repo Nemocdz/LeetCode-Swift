@@ -18,18 +18,21 @@ import Cocoa
 
 class Solution {
     func maxProduct(_ nums: [Int]) -> Int {
-        guard nums.count > 1 else {
-            return nums.first!
-        }
-        var a = nums
-        for i in 1..<nums.count {
-            a[i] *= a[i - 1] != 0 ? a[i - 1] : 1
-        }
-        var b = [Int](nums.reversed())
-        for i in 1..<nums.count {
-            b[i] *= b[i - 1] != 0 ? b[i - 1] : 1
+        var answer = Int.min
+        var currentMax = 1
+        var currentMin = 1
+        
+        for num in nums {
+            if num < 0 {
+                swap(&currentMin, &currentMax)
+            }
+            
+            currentMax = max(num, currentMax * num)
+            currentMin = max(num, currentMin * num)
+            
+            answer = max(answer, currentMax)
         }
         
-        return max(a.max()!, b.max()!)
+        return answer
     }
 }

@@ -20,19 +20,19 @@ let num = 200
 
 class Solution {
     func trailingZeroes(_ n: Int) -> Int {
-        guard n >= 5 else {
+        if n < 5 {
             return 0
         }
         
-        var result = 0
+        var answer = 0
         var five = 5
         
         while five <= n {
-            result += n / five
+            answer += n / five
             five *= 5
         }
         
-        return result
+        return answer
     }
 }
 

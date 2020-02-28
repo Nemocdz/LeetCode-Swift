@@ -39,7 +39,6 @@ class Solution {
         
         return answer
     }
-
 }
 
 Solution().majorityElement(s)

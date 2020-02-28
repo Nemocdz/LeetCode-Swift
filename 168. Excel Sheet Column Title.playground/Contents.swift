@@ -31,14 +31,14 @@ let s = 701
 
 class Solution {
     func convertToTitle(_ n: Int) -> String {
-        var a = n
-        var result = ""
-        while a > 0 {
-            a -= 1
-            result.insert(Character(UnicodeScalar(65 + a % 26)!), at: result.startIndex)
-            a /= 26
+        var n = n
+        var answer = ""
+        while n > 0 {
+            n -= 1
+            answer.insert(Character(UnicodeScalar(65 + n % 26)!), at: answer.startIndex)
+            n /= 26
         }
-        return result
+        return answer
     }
 }
 

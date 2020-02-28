@@ -30,12 +30,13 @@ class Solution {
         var start = 0
         var end = nums.count - 1
         while start < end {
-            let a = (start + end) / 2
-            let b = a + 1
-            if nums[a] < nums[b] {
-                start = b
+            let mid = (start + end) / 2
+            let right = mid + 1
+            // 左边小
+            if nums[mid] < nums[right] {
+                start = right
             } else {
-                end = a
+                end = mid
             }
         }
         return start

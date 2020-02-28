@@ -31,15 +31,16 @@ import Cocoa
 
 class Solution {
     func rightSideView(_ root: TreeNode?) -> [Int] {
-        guard let root = root else {
+        if root == nil {
             return []
         }
-        var queue = [(root, 0)]
-        var result = [Int]()
+        
+        var queue = [(root!, 0)]
+        var answers = [Int]()
         while !queue.isEmpty {
             let (node, height) = queue.removeFirst()
-            if result.count <= height {
-                result.append(node.val)
+            if answers.count <= height {
+                answers.append(node.val)
             }
             if let right = node.right {
                 queue.append((right, height + 1))
@@ -49,6 +50,6 @@ class Solution {
                 queue.append((left, height + 1))
             }
         }
-        return result
+        return answers
     }
 }

@@ -29,25 +29,21 @@ let k = 8
 
 class Solution {
     func rotate(_ nums: inout [Int], _ k: Int) {
-        var k = k
-        if k > nums.count{
-            k = k % nums.count
+        let k = k % nums.count
+        
+        func reverse(_ start:Int, _ end:Int) {
+            var start = start
+            var end = end
+            while start < end {
+                nums.swapAt(start, end)
+                start += 1
+                end -= 1
+            }
         }
-        nums.reverse(0, nums.count - 1 - k)
-        nums.reverse(nums.count - k, nums.count - 1)
-        nums.reverse()
-    }
-}
-
-extension Array where Element == Int{
-    mutating func reverse(_ start:Int ,_ end:Int) {
-        var start = start
-        var end = end
-        while start < end {
-            (self[start], self[end]) = (self[end], self[start])
-            start += 1
-            end -= 1
-        }
+        
+        reverse(0, nums.count - k - 1)
+        reverse(nums.count - k, nums.count - 1)
+        reverse(0, nums.count - 1)
     }
 }
 

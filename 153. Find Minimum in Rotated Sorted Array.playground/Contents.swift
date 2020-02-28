@@ -21,19 +21,20 @@ import Cocoa
 
 class Solution {
     func findMin(_ nums: [Int]) -> Int {
-        if nums.count <= 1 {
-            return nums.first!
+        var start = 0
+        var end = nums.count - 1
+        
+        while start < end {
+            let mid = (start + end) / 2
+            if nums[mid] < nums[end] {
+                end = mid
+            } else {
+                start = mid + 1
+            }
         }
-        let midIndex = nums.count / 2
-        let mid = nums[midIndex]
-        if mid < nums.last! {
-            return findMin(Array(nums[0..<midIndex + 1]))
-        } else if mid > nums.last! {
-            return findMin(Array(nums[midIndex + 1..<nums.count]))
-        } else {
-            return nums.first! < nums.last! ? nums.first! : nums.last!
-        }
+        
+        return nums[start]
     }
 }
 
-Solution().findMin([3,4,5,1,2])
+Solution().findMin([3,1,2])
