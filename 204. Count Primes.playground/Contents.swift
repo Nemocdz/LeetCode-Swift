@@ -12,29 +12,27 @@ import Cocoa
 
 class Solution {
     func countPrimes(_ n: Int) -> Int {
-        guard n > 1 else {
+        if n <= 2 {
             return 0
         }
-        var isPrimes = [Bool](repeating:true, count: n)
-        isPrimes[0] = false
-        isPrimes[1] = false
         
-        for i in 2..<n where i * i < n{
-            guard isPrimes[i] else {
-                continue
+        var primes = [Bool](repeating: true, count: n)
+        
+        // 填色法
+        var i = 2
+        while i * i < n {
+            if primes[i] {
+                // i 之前都被之前反过来排除过
+                var j = i * i
+                while j < n  {
+                    primes[j] = false
+                    j += i
+                }
             }
-            
-            var j = i * i
-            while j < n {
-                isPrimes[j] = false
-                j += i
-            }
+            i += 1
         }
         
-        return isPrimes.filter({(isPrimes) -> Bool in
-            return isPrimes
-        }).count
-        
+        return primes[2...].filter{ $0 }.count
     }
 }
 

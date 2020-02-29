@@ -1,4 +1,4 @@
-import Cocoa
+ import Cocoa
 
 /*
  删除链表中等于给定值 val 的所有节点。
@@ -27,11 +27,21 @@ a.next?.next = ListNode(6)
  
 class Solution {
     func removeElements(_ head: ListNode?, _ val: Int) -> ListNode? {
-        guard let head = head else {
-            return nil
+        let fake = ListNode(-1)
+        fake.next = head
+        var pre = fake
+        var current = head
+        
+        while current != nil {
+            if current?.val == val {
+                pre.next = current?.next
+            } else {
+                pre = current!
+            }
+            current = current?.next
         }
-        head.next = removeElements(head.next, val)
-        return head.val == val ? head.next : head
+        
+        return fake.next
     }
 }
 
