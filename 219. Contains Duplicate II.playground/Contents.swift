@@ -22,17 +22,15 @@ let k = 3
 
 class Solution {
     func containsNearbyDuplicate(_ nums: [Int], _ k: Int) -> Bool {
-        var result = false
-        var dic = [Int:Int]()
-        for index in 0..<nums.count {
-            if let sameIndex = dic[nums[index]], index - sameIndex <= k {
-                result = true
-                break
+        var indexs = [Int:Int]()
+        for (index, num) in nums.enumerated() {
+            if let lastIndex = indexs[num], index - lastIndex <= k {
+                return true
             } else {
-                dic[nums[index]] = index
+                indexs[num] = index
             }
         }
-        return result
+        return false
     }
 }
 

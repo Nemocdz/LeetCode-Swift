@@ -35,7 +35,6 @@ class Solution {
         }
         
         var answers = [[Int]]()
-        let nums = candidates.sorted()
         var temp = [Int]()
         
         func _sum(_ nums:[Int], target:Int) {
@@ -50,7 +49,7 @@ class Solution {
             }
         }
 
-        _sum(nums, target: target)
+        _sum(candidates.sorted(), target: target)
         return answers
     }
 }

@@ -19,20 +19,30 @@ import Cocoa
 
 class Solution {
     func combinationSum3(_ k: Int, _ n: Int) -> [[Int]] {
-        func combination(_ result:inout [[Int]], _ array:inout [Int],_ k:Int,_ start:Int,_ n:Int){
-            if array.count == k && n == 0 {
-                result.append(array)
-            } else {
-                for i in start..<10 {
-                    array.append(i)
-                    combination(&result, &array, k, i + 1, n - i)
-                    array.removeLast()
+        if k > 9 || k == 0 {
+            return []
+        }
+        
+        var answers = [[Int]]()
+        var temp = [Int]()
+                
+        func _kSum(_ nums:[Int], target:Int, k:Int) {
+            if k == 0 && target == 0 {
+                answers.append(temp)
+            } else if k > 0 && target > 0 {
+                for (index, num) in nums.enumerated() {
+                    if index + k - 1 >= nums.count {
+                        continue
+                    }
+                    temp.append(num)
+                    _kSum(Array(nums[(index + 1)...]), target: target - num, k: k - 1)
+                    temp.removeLast()
                 }
             }
         }
-        var result = [[Int]]()
-        var array = [Int]()
-        combination(&result, &array, k, 1, n)
-        return result
+
+        _kSum((1...9).map{ $0 }, target: n, k: k)
+
+        return answers
     }
 }
