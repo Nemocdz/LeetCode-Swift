@@ -36,21 +36,24 @@ public class TreeNode {
  
 class Solution {
     func binaryTreePaths(_ root: TreeNode?) -> [String] {
-        var result = [String]()
-        func updateTreePath(_ root:TreeNode?, currentPath:String){
-            guard let root = root else {
+        var answers = [String]()
+        
+        func _binaryTreePaths(_ root:TreeNode?, _ path:String) {
+            if root == nil {
                 return
             }
             
-            if root.left == nil && root.right == nil {
-                result.append(currentPath + "\(root.val)")
+            let path = path + "\(root!.val)"
+            
+            if root?.left == nil && root?.right == nil {
+                answers.append(path)
             } else {
-                let nextPath =  currentPath + "\(root.val)->"
-                updateTreePath(root.left, currentPath: nextPath)
-                updateTreePath(root.right, currentPath: nextPath)
+                _binaryTreePaths(root?.left, "\(path)->")
+                _binaryTreePaths(root?.right, "\(path)->")
             }
         }
-        updateTreePath(root, currentPath: "")
-        return result
+        
+        _binaryTreePaths(root, "")
+        return answers
     }
 }

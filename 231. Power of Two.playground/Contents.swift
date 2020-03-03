@@ -22,19 +22,19 @@ import Cocoa
 let s = 218
 class Solution {
     func isPowerOfTwo(_ n: Int) -> Bool {
-        guard n > 0 else {
+        if n <= 0 {
             return false
         }
-        var a = n
-        var result = true
-        while a > 1 {
-            guard a % 2 == 0 else{
-                result = false
-                break
+        
+        var n = n
+        
+        while n > 1 {
+            if n % 2 != 0 {
+                return false
             }
-            a /= 2
+            n /= 2
         }
-        return result
+        return true
     }
 }
 

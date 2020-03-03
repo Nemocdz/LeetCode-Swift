@@ -15,17 +15,21 @@ import Cocoa
 
 class Solution {
     func productExceptSelf(_ nums: [Int]) -> [Int] {
-        var result = nums.map{ _  in 1 }
+        var answers = nums.map{ _ in 1 }
+        
+        // i 左边数的乘积
         for i in 1..<nums.count {
-            result[i] = result[i - 1] * nums[i - 1]
-        }
-        var temp = 1
-        for i in (0..<nums.count).reversed() {
-            result[i] = temp * result[i]
-            temp = temp * nums[i]
+            answers[i] = answers[i - 1] * nums[i - 1]
         }
         
-        return result
+        // i 右边数的乘积
+        var right = 1
+        for i in (0..<nums.count).reversed() {
+            answers[i] = right * answers[i]
+            right *= nums[i]
+        }
+        
+        return answers
     }
 }
 

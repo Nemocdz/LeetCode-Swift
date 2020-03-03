@@ -34,17 +34,17 @@ class Solution {
         } else if num == 1 {
             return true
         } else {
-            var result = num
-            while result % 5 == 0 {
-                result /= 5
+            var num = num
+            while num % 5 == 0 {
+                num /= 5
             }
-            while result % 3 == 0 {
-                result /= 3
+            while num % 3 == 0 {
+                num /= 3
             }
-            while result % 2 == 0 {
-                result /= 2
+            while num % 2 == 0 {
+                num /= 2
             }
-            return result == 1
+            return num == 1
         }
     }
 }

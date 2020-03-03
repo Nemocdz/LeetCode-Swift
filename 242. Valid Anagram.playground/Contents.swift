@@ -23,13 +23,13 @@ let t = "nagaram"
 
 class Solution {
     func isAnagram(_ s: String, _ t: String) -> Bool {
-        guard s.count == t.count else {
+        if s.count != t.count {
             return false
         }
         
         var map = [Character: Int]()
-        var result = true
-        s.forEach { (c) in
+        
+        for c in s {
             if let count = map[c] {
                 map[c] = count + 1
             } else {
@@ -37,16 +37,15 @@ class Solution {
             }
         }
         
-        t.forEach { (c) in
-            if let count = map[c], count > 0{
+        for c in t {
+            if let count = map[c], count > 0 {
                 map[c] = count - 1
             } else {
-                result = false
-                return
+                return false
             }
         }
         
-        return result
+        return true
     }
 }
 

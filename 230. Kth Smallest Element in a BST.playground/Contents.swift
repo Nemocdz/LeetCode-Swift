@@ -46,24 +46,17 @@ public class TreeNode {
  
 class Solution {
     func kthSmallest(_ root: TreeNode?, _ k: Int) -> Int {
-        func count(of root:TreeNode?) -> Int {
-            guard let root = root else {
-                return 0
-            }
-            return 1 + count(of: root.left) + count(of: root.right)
-        }
-        
-        guard let root = root else {
+        if root == nil {
             return -1
         }
         
-        let leftCount = count(of: root.left)
-        if k <= leftCount {
-            return kthSmallest(root.left, k)
-        } else if k > leftCount + 1 {
-            return kthSmallest(root.right, k - 1 - leftCount)
-        } else {
-            return root.val
+        func inorder(_ root:TreeNode?) -> [Int] {
+            if root == nil {
+                return []
+            }
+            return inorder(root?.left) + [root!.val] + inorder(root?.right)
         }
+        
+        return inorder(root)[k - 1]
     }
 }

@@ -17,35 +17,47 @@ import Cocoa
 
 class Solution {
     func majorityElement(_ nums: [Int]) -> [Int] {
-        guard !nums.isEmpty else {
+        if nums.isEmpty {
             return []
         }
-        var first = (0, 0)
-        var second = (0, 1)
-        for n in nums {
-            if n == first.1 {
-                first.0 += 1
-            } else if n == second.1 {
-                second.0 += 1
-            } else if first.0 == 0 {
-                first = (1, n)
-            } else if second.0 == 0 {
-                second = (1, n)
+        
+        var answer1 = nums.first!
+        var times1 = 0
+        var answer2 = nums.first!
+        var times2 = 0
+        
+        for num in nums {
+            if num == answer1 {
+                times1 += 1
+            } else if num == answer2 {
+                times2 += 1
+            } else if times1 == 0 {
+                answer1 = num
+                times1 = 1
+            } else if times2 == 0 {
+                answer2 = num
+                times2 = 1
             } else {
-                first.0 -= 1
-                second.0 -= 1
+                times1 -= 1
+                times2 -= 2
             }
         }
-        first.0 = 0
-        second.0 = 0
-        for n in nums {
-            if n == first.1 {
-                first.0 += 1
-            } else if n == second.1 {
-                second.0 += 1
-            }
+        
+        times1 = 0
+        times2 = 0
+        for num in nums {
+            times1 += num == answer1 ? 1 : 0
+            times2 += num == answer2 ? 1 : 0
         }
-        let result = [first, second].filter { $0.0 > nums.count / 3 }.map{ $0.1 }
-        return result
+        
+        var answers = [Int]()
+        if times1 >= nums.count / 3 {
+            answers.append(answer1)
+        }
+        
+        if answer1 != answer2 && times2 >= nums.count / 3 {
+            answers.append(answer2)
+        }
+        return answers
     }
 }

@@ -17,14 +17,19 @@ import Cocoa
 
 class Solution {
     func numSquares(_ n: Int) -> Int {
-        var records = (0..<n+1).map{ $0 }
-        for i in 1..<n + 1 {
+        var answers = [Int](repeating: 0, count: n + 1)
+        
+        // dp(i) = 1 + min(dp(i - 1), dp(i - 4)...dp(i - k)), k * k <= n
+        for i in 1...n {
+            var minValue = Int.max
             var j = 1
             while j * j <= i {
-                records[i] = min(records[i - j * j] + 1, records[i])
+                minValue = min(minValue, answers[i - j * j])
                 j += 1
             }
+            answers[i] = minValue + 1
         }
-        return records.last!
+        
+        return answers[n]
     }
 }

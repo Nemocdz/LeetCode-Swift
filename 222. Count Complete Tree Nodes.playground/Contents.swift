@@ -35,28 +35,34 @@ public class TreeNode {
  
 class Solution {
     func countNodes(_ root: TreeNode?) -> Int {
-        guard let root = root else {
+        if root == nil {
             return 0
         }
         
-        var leftHeight = 0
-        var rightHeight = 0
-        var leftNode:TreeNode? = root
-        var rightNode:TreeNode? = root
-        while let node = leftNode {
-            leftNode = node.left
-            leftHeight += 1
-        }
+        let leftHeight: Int = {
+            var height = 0
+            var node = root
+            while node != nil {
+                node = node?.left
+                height += 1
+            }
+            return height
+        }()
         
-        while let node = rightNode {
-            rightNode = node.right
-            rightHeight += 1
-        }
-        
+        let rightHeight: Int = {
+            var height = 0
+            var node = root
+            while node != nil {
+                node = node?.right
+                height += 1
+            }
+            return height
+        }()
+
         if leftHeight == rightHeight {
             return (2 << (leftHeight - 1)) - 1
         } else {
-            return 1 + countNodes(root.left) + countNodes(root.right)
+            return 1 + countNodes(root?.left) + countNodes(root?.right)
         }
     }
 }

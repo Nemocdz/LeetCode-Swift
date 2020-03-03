@@ -19,9 +19,9 @@ let s = [1, 2 ,3, 0, 5]
 
 class Solution {
     func missingNumber(_ nums: [Int]) -> Int {
-        let max = nums.count
         let sum = nums.reduce(0, {$0 + $1})
-        return (1 + max) * max / 2 - sum
+        // 高斯定理
+        return (1 + nums.count) * nums.count / 2 - sum
     }
 }
 

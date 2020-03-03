@@ -26,30 +26,32 @@ import Cocoa
 
 class Solution {
     func getHint(_ secret: String, _ guess: String) -> String {
-        var kv = [Character:Int]()
+        var counts = [Character:Int]()
         
         for c in secret {
-            if let count = kv[c] {
-                kv[c] = count + 1
+            if let count = counts[c] {
+                counts[c] = count + 1
             } else {
-                kv[c] = 1
+                counts[c] = 1
             }
         }
         
         var bull = 0
         var cow = 0
         
-        for (secretC, guessC) in zip(secret, guess) {
-            if secretC == guessC {
+        for (a, b) in zip(secret, guess) {
+            let count = counts[b] ?? 0
+            if a == b {
                 bull += 1
-                kv[secretC] = kv[secretC]! - 1
-            }
-        }
-        
-        for (secretC, guessC) in zip(secret, guess) {
-            if secretC != guessC, let count = kv[guessC], count > 0 {
+                if count > 0 {
+                    counts[b] = count - 1
+                // 前面的 cow 多算了
+                } else {
+                    cow -= 1
+                }
+            } else if count > 0 {
                 cow += 1
-                kv[guessC] = count - 1
+                counts[b] = count - 1
             }
         }
         
@@ -57,4 +59,4 @@ class Solution {
     }
 }
 
-Solution().getHint("1122", "2211")
+Solution().getHint("1807", "7810")

@@ -21,18 +21,16 @@ import Cocoa
 
 class Solution {
     func findDuplicate(_ nums: [Int]) -> Int {
-        var slow = 0
-        var fast = 0
-        repeat {
-            fast = nums[nums[fast]]
-            slow = nums[slow]
-        } while slow != fast
-        
-        fast = 0
-        while fast != slow {
-            fast = nums[fast]
-            slow = nums[slow]
+        var nums = nums
+        // 将数字的位置标负数
+        for i in 0..<nums.count {
+            let j = abs(nums[i])
+            if nums[j] < 0 {
+                return j
+            } else {
+                nums[j] = -nums[j]
+            }
         }
-        return fast
+        return -1
     }
 }

@@ -35,34 +35,32 @@ import Cocoa
 
 class Solution {
     func gameOfLife(_ board: inout [[Int]]) {
-        let m = board.count
-        let n = board.first!.count
-    
-        board = board.enumerated().map{ i, states in
-            return states.enumerated().map{ j, state in
-                func liveNeighborsNum(at i:Int, _ j:Int) -> Int {
-                    var count = 0
-                    for x in max(i - 1, 0)..<min(i + 1, m - 1) + 1 {
-                        for y in max(j - 1, 0)..<min(j + 1, n - 1) + 1 {
-                            count += (x == i && y == j) ? 0 : board[x][y] & 1
-                        }
+        let height = board.count
+        let width = board.first?.count ?? 0
+        
+        func liveNeighborCount(_ row:Int, _ column:Int) -> Int {
+            var count = 0
+            for i in max(row - 1, 0)...min(row + 1, height - 1) {
+                for j in max(column - 1, 0)...min(column + 1, width - 1) {
+                    if (i != row || j != column) && board[i][j] == 1 {
+                        count += 1
                     }
-                    return count
                 }
-                let liveNum = liveNeighborsNum(at: i, j)
-                if state == 1 && (liveNum == 2 || liveNum == 3) {
-                    return 0b11
-                } else if state == 0 && liveNum == 3 {
-                    return 0b10
+            }
+            return count
+        }
+        
+        board = board.enumerated().map { i, states in
+            states.enumerated().map { j, state in
+                let liveCount = liveNeighborCount(i, j)
+                if state == 1 && (liveCount < 2 || liveCount > 3) {
+                    return 0
+                } else if state == 0 && liveCount == 3 {
+                    return 1
                 } else {
                     return state
                 }
             }
-        }.map{ states in
-            return states.map{ state in
-                return state >> 1
-            }
         }
     }
 }
-

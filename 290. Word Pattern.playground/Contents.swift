@@ -30,31 +30,29 @@ let s = "dog cat cat dog"
 
 class Solution {
     func wordPattern(_ pattern: String, _ str: String) -> Bool {
-        let words = str.split(separator: " ").map({String($0)})
-        let chars = pattern.map({$0})
+        let words = str.split(separator: " ").map{ String($0) }
         
-        guard words.count == chars.count else {
+        if words.count != pattern.count {
             return false
         }
         
-        var result = true
-        var map = [Character: String]()
-        for index in 0..<words.count {
-            if map.keys.contains(chars[index]){
-                if map[chars[index]] != words[index] {
-                    result = false
-                    break
-                }
-            } else {
-                if map.values.contains(words[index]) {
-                    result = false
-                    break
-                } else {
-                    map[chars[index]] = words[index]
-                }
+        var map1 = [Character:String]()
+        var map2 = [String:Character]()
+        
+        for (char, word) in zip(pattern, words) {
+            if let value = map1[char], value != word {
+                return false
             }
+            
+            if let value = map2[word], value != char {
+                return false
+            }
+            
+            map1[char] = word
+            map2[word] = char
         }
-        return result
+    
+        return true
     }
 }
 

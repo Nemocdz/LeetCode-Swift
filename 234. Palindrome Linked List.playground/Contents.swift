@@ -29,51 +29,41 @@ public class ListNode {
  
 class Solution {
     func isPalindrome(_ head: ListNode?) -> Bool {
-        let middle = middleNode(head)
-        var head = head
-        var tail = reverseList(middle)
-        var result = true
-        while let tailNext = tail?.next {
-            guard tail!.val == head!.val else {
-                result = false
-                break
+        let midNode: ListNode? = {
+            var slow = head
+            var fast = head
+            while fast != nil {
+                slow = slow?.next
+                fast = fast?.next?.next
             }
-            tail = tailNext
+            return slow
+        }()
+        
+        func reverse(_ head: ListNode?) -> ListNode? {
+            var pre:ListNode? = nil
+            var current = head
+            while current != nil {
+                let next = current?.next
+                current?.next = pre
+                pre = current
+                current = next
+            }
+            
+            return pre
+        }
+        
+        var head = head
+        var tail = reverse(midNode)
+        
+        while tail != nil {
+            if tail?.val != head?.val {
+                return false
+            }
             head = head?.next
-        }
-        return result
-    }
-    
-    func middleNode(_ head: ListNode?) -> ListNode? {
-        var totalCount = 0
-        var temp = head
-        while let next = temp?.next {
-            totalCount += 1
-            temp = next
+            tail = tail?.next
         }
         
-        var halfCount = totalCount / 2
-        var middle = head
-        while halfCount > 0 {
-            halfCount -= 1
-            middle = middle?.next
-        }
-        
-        return middle
-    }
-    
-    func reverseList(_ head: ListNode?) -> ListNode? {
-        guard var head = head else {
-            return nil
-        }
-        
-        let current = head
-        while let next = current.next{
-            current.next = next.next;
-            next.next = head
-            head = next
-        }
-        return head
+        return true
     }
 }
 
