@@ -26,29 +26,16 @@ class Solution {
         if strs.isEmpty {
             return ""
         }
-        
-        if strs.count == 1 {
-            return strs.first!
-        }
-        
-        var strs = strs
-        strs.sort { $0.count < $1.count }
-        
-        var maxString = strs.first!
-        
-        func getMaxString(of first:String, _ second:String) -> String {
-            var end = 0
-            while end < first.count && (first[.init(utf16Offset: end, in: first)] == second[.init(utf16Offset: end, in: second)]) {
-                end += 1
+        let first = strs.first!
+        for (index, c) in first.enumerated() {
+            let _index = String.Index(utf16Offset: index, in: first)
+            for str in strs.dropFirst() {
+                if index >= str.count || str[_index] != c {
+                    return String(first[first.startIndex..<_index])
+                }
             }
-            return String(first[first.startIndex..<String.Index(utf16Offset: end, in: first)])
         }
-        
-        for str in strs.dropFirst() {
-            maxString = getMaxString(of: maxString, str)
-        }
-        
-        return maxString
+        return first
     }
 }
 

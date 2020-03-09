@@ -18,23 +18,24 @@ import Cocoa
 class Solution {
     func permuteUnique(_ nums: [Int]) -> [[Int]] {
         var answers = [[Int]]()
-        
-        func _permute(_ nums: [Int], _ start: Int) {
-            if start == nums.count - 1 {
-                answers.append(nums)
+        var temp = [Int]()
+                
+        func _permute(_ nums:[Int]) {
+            if nums.isEmpty {
+                answers.append(temp)
             } else {
-                var nums = nums
-                for i in start..<nums.count {
-                    if start == i || !nums[start..<i].contains(nums[i]) {
-                        nums.swapAt(start, i)
-                        _permute(nums, start + 1)
-                        nums.swapAt(start, i)
+                for i in 0..<nums.count {
+                    if i > 0 && nums[i] == nums[i - 1] {
+                        continue
                     }
+                    temp.append(nums[i])
+                    _permute(Array(nums[0..<i]) + Array(nums[(i + 1)...]))
+                    temp.removeLast()
                 }
             }
         }
-        
-        _permute(nums, 0)
+
+        _permute(nums.sorted())
         return answers
     }
 }

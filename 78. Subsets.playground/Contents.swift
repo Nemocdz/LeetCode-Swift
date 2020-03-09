@@ -23,9 +23,16 @@ import Cocoa
 
 class Solution {
     func subsets(_ nums: [Int]) -> [[Int]] {
-        var answers:[[Int]] = [[]]
-        for num in nums {
-            answers.append(contentsOf: answers.map{ $0 + [num] })
+        var answers = [[Int]]()
+        var temp = [Int]()
+        
+        func _subset(_ nums:[Int]) {
+            answers.append(temp)
+            for i in 0..<nums.count {
+                temp.append(nums[i])
+                _subset(Array(nums[(i + 1)...]))
+                temp.removeLast()
+            }
         }
         return answers
     }

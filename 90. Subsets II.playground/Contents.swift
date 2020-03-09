@@ -21,20 +21,22 @@ import Cocoa
 
 class Solution {
     func subsetsWithDup(_ nums: [Int]) -> [[Int]] {
-        let nums = nums.sorted()
-        var answers:[[Int]] = [[]]
-        var last = 1
-        for (index, num) in nums.enumerated() {
-            let new = answers.enumerated()
-                .filter {
-                    !(index > 0 && num == nums[index - 1] && $0.0 < last)
+        var answers = [[Int]]()
+        var temp = [Int]()
+        
+        func _subsets(_ nums:[Int]) {
+            answers.append(temp)
+            for i in 0..<nums.count {
+                if i > 0 && nums[i] == nums[i - 1] {
+                    continue
                 }
-                .map {
-                    $0.1 + [num]
-                }
-            last = answers.count
-            answers.append(contentsOf: new)
+                temp.append(nums[i])
+                _subsets(Array(nums[(i + 1)...]))
+                temp.removeLast()
+            }
         }
+        
+        _subsets(nums.sorted())
         return answers
     }
 }

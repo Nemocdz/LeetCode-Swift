@@ -31,10 +31,6 @@ import Cocoa
 
 class Solution {
     func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
-        if candidates.isEmpty {
-            return []
-        }
-        
         var answers = [[Int]]()
         var temp = [Int]()
         
@@ -42,12 +38,12 @@ class Solution {
             if target == 0 {
                 answers.append(temp)
             } else if target > 0 {
-                for (index, num) in nums.enumerated() {
-                    if (index > 0 && num == nums[index - 1]) {
+                for i in 0..<nums.count {
+                    if (i > 0 && nums[i] == nums[i - 1]) {
                         continue
                     }
-                    temp.append(num)
-                    _sum(Array(nums[(index + 1)...]), target: target - num)
+                    temp.append(nums[i])
+                    _sum(Array(nums[(i + 1)...]), target: target - nums[i])
                     temp.removeLast()
                 }
             }

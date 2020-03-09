@@ -30,12 +30,12 @@ class Solution {
             if k == 0 && target == 0 {
                 answers.append(temp)
             } else if k > 0 && target > 0 {
-                for (index, num) in nums.enumerated() {
-                    if index + k - 1 >= nums.count {
+                for (i, num) in nums.enumerated() {
+                    if i + k - 1 >= nums.count {
                         continue
                     }
                     temp.append(num)
-                    _kSum(Array(nums[(index + 1)...]), target: target - num, k: k - 1)
+                    _kSum(Array(nums[(i + 1)...]), target: target - num, k: k - 1)
                     temp.removeLast()
                 }
             }

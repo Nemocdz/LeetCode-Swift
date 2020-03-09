@@ -32,7 +32,6 @@ class Solution {
         }
         
         var answers = [[Int]]()
-        let nums = nums.sorted()
         var temp = [Int]()
         
         func _kSum(_ nums:[Int], target:Int, k:Int) {
@@ -40,58 +39,20 @@ class Solution {
                 if nums.contains(target) {
                     answers.append([target])
                 }
-            } else if k == 2 {
-                answers.append(contentsOf:twoSum(nums, target: target).map{ temp + $0 })
             } else {
-                for (index, num) in nums.enumerated() {
-                    if (index > 0 && num == nums[index - 1]) || index + k - 1 >= nums.count {
+                for i in 0..<nums.count {
+                    if (i > 0 && nums[i] == nums[i - 1]) || i + k - 1 >= nums.count {
                         continue
                     }
-                    temp.append(num)
-                    _kSum(Array(nums[(index + 1)...]), target: target - num, k: k - 1)
+                    temp.append(nums[i])
+                    _kSum(Array(nums[(i + 1)...]), target: target - nums[i], k: k - 1)
                     temp.removeLast()
                 }
             }
         }
 
-        _kSum(nums, target: target, k: k)
-
+        _kSum(nums.sorted(), target: target, k: k)
         return answers
-    }
-        
-    func twoSum(_ nums:[Int], target:Int) -> [[Int]] {
-        if nums.count < 2 {
-            return []
-        }
-        
-        var anwsers = [[Int]]()
-        let nums = nums.sorted()
-        var start = 0
-        var end = nums.count - 1
-        
-        while start < end {
-            let first = nums[start]
-            let second = nums[end]
-            let sum = first + second
-            if sum > target {
-                end -= 1
-            } else if sum < target {
-                start += 1
-            } else {
-                anwsers.append([first, second])
-                start += 1
-                end -= 1
-                
-                while start < end && nums[start] == nums[start - 1]{
-                    start += 1
-                }
-                
-                while start < end && nums[end] == nums[end + 1] {
-                    end -= 1
-                }
-            }
-        }
-        return anwsers
     }
 }
 

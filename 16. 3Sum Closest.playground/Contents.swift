@@ -19,26 +19,26 @@ class Solution {
         let nums = nums.sorted()
         var answer = nums[0] + nums[1] + nums[2]
         
-        for (index, num) in nums.enumerated() {
-            if (index > 0 && num == nums[index - 1] || index + 2 >= nums.count) {
+        for i in 0..<nums.count {
+            if (i > 0 && nums[i] == nums[i - 1]) || i + 2 >= nums.count {
                 continue
             }
             
-            var start = index + 1
+            var start = i + 1
             var end = nums.count - 1
             
             while start < end {
-                let sum = num + nums[start] + nums[end]
+                let sum = nums[i] + nums[start] + nums[end]
+                if abs(sum - target) < abs(answer - target) {
+                    answer = sum
+                }
+                
                 if sum > target {
                     end -= 1
                 } else if sum < target {
                     start += 1
                 } else {
-                    answer = sum
                     break
-                }
-                if abs(sum - target) < abs(answer - target) {
-                    answer = sum
                 }
             }
         }

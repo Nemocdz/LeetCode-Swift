@@ -32,6 +32,6 @@ class Solution {
         let next = head?.next
         head?.next = swapPairs(next?.next)
         next?.next = head
-        return next;
+        return next
     }
 }

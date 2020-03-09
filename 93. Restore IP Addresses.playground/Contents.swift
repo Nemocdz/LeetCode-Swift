@@ -15,24 +15,25 @@ class Solution {
             return []
         }
         
+        func vaildSegment(_ start:Int, _ end:Int) -> String? {
+            let startIndex = String.Index(utf16Offset: start, in: s)
+            let endIndex = String.Index(utf16Offset: end, in: s)
+            let subString = s[startIndex..<endIndex]
+            if subString.first! == "0" && subString.count > 1 {
+                return nil
+            }
+            if let num = Int(subString), num >= 0 && num < 256 {
+                return String(subString)
+            }
+            return nil
+        }
+
+        
         var answers = [String]()
         
         for i in 1...min(3, s.count - 3) {
             for j in i + 1...min(i + 3, s.count - 2) {
                 for k in j + 1...min(j + 3, s.count - 1) {
-                    func vaildSegment(_ start:Int, _ end:Int) -> String? {
-                        let startIndex = String.Index(utf16Offset: start, in: s)
-                        let endIndex = String.Index(utf16Offset: end, in: s)
-                        let subString = s[startIndex..<endIndex]
-                        if subString.first! == "0" && subString.count > 1 {
-                            return nil
-                        }
-                        if let num = Int(subString), num >= 0 && num < 256 {
-                            return String(subString)
-                        }
-                        return nil
-                    }
-                    
                     if let a = vaildSegment(0, i),
                         let b = vaildSegment(i, j),
                         let c = vaildSegment(j, k),

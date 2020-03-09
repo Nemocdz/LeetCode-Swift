@@ -30,20 +30,16 @@ import Cocoa
 
 class Solution {
     func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
-        if candidates.isEmpty {
-            return []
-        }
-        
         var answers = [[Int]]()
         var temp = [Int]()
         
         func _sum(_ nums:[Int], target:Int) {
-            if target == 0 {
+            if target == 0  {
                 answers.append(temp)
             } else if target > 0 {
-                for (index, num) in nums.enumerated() {
-                    temp.append(num)
-                    _sum(Array(nums[index...]), target: target - num)
+                for i in 0..<nums.count {
+                    temp.append(nums[i])
+                    _sum(Array(nums[(i + 1)...]), target: target - nums[i])
                     temp.removeLast()
                 }
             }

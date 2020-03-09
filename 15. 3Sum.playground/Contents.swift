@@ -28,51 +28,43 @@ class Solution {
         
         var anwsers = [[Int]]()
         let nums = nums.sorted()
-        for (index, num) in nums.enumerated() {
-            if (index > 0 && num == nums[index - 1]) || index + 2 >= nums.count {
+        
+        for i in 0..<nums.count {
+            if (i > 0 && nums[i] == nums[i - 1]) || i + 2 >= nums.count {
                 continue
             }
-            anwsers.append(contentsOf: twoSum(Array(nums[(index + 1)...]), target: target - num).map{ [num] + $0 })
+            
+            let new = twoSum(Array(nums[i + 1]...), target: target - nums[i]).map{ $0 + [nums[i]] }
+            anwsers.append(contentsOf: new)
         }
+        
         return anwsers
     }
-
     
     func twoSum(_ nums:[Int], target:Int) -> [[Int]] {
         if nums.count < 2 {
             return []
         }
         
-        var anwsers = [[Int]]()
+        var answers = [[Int]]()
         let nums = nums.sorted()
         var start = 0
         var end = nums.count - 1
         
         while start < end {
-            let first = nums[start]
-            let second = nums[end]
-            let sum = first + second
-            if sum > target {
+            if nums[start] + nums[end] > target {
                 end -= 1
-            } else if sum < target {
+            } else if nums[start] + nums[end] < target {
                 start += 1
             } else {
-                anwsers.append([first, second])
+                answers.append([nums[start], nums[end]])
                 start += 1
                 end -= 1
-                
-                while start < end && nums[start] == nums[start - 1]{
-                    start += 1
-                }
-                
-                while start < end && nums[end] == nums[end + 1] {
-                    end -= 1
-                }
             }
         }
-        return anwsers
+        
+        return answers
     }
-
 }
 
 Solution().threeSum(a)

@@ -20,21 +20,21 @@ import Cocoa
 class Solution {
     func permute(_ nums: [Int]) -> [[Int]] {
         var answers = [[Int]]()
+        var temp = [Int]()
         
-        func _permute(_ nums: [Int], _ start:Int) {
-            if start == nums.count - 1 {
-                answers.append(nums)
+        func _permute(_ nums:[Int]) {
+            if temp.count == nums.count {
+                answers.append(temp)
             } else {
-                var nums = nums
-                for i in start..<nums.count {
-                    nums.swapAt(start, i)
-                    _permute(nums, start + 1)
-                    nums.swapAt(start, i)
+                for i in 0..<nums.count {
+                    temp.append(nums[i])
+                    _permute(Array(nums[0..<i]) + Array(nums[(i + 1)...]))
+                    temp.removeLast()
                 }
             }
         }
         
-        _permute(nums, 0)
+        _permute(nums)
         return answers
     }
 }
