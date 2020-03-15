@@ -26,46 +26,25 @@ public class ListNode {
  
 class Solution {
     func reverseBetween(_ head: ListNode?, _ m: Int, _ n: Int) -> ListNode? {
-        let newHead = ListNode(-1)
-        newHead.next = head
-        var index = 0
-        var current:ListNode? = newHead
-        var before = newHead
-        var after:ListNode?
-        var subHead:ListNode?
-        while current != nil {
-            if index == m - 1 {
-                before = current!
-                subHead = current!.next
-            } else if index == n {
-                after = current!.next
-                current?.next = nil
+        if m == 1 {
+            var next:ListNode? = nil
+            
+            func reverseList(_ head: ListNode?, _ n:Int) -> ListNode? {
+                if n == 1 {
+                    next = head?.next
+                    return head
+                }
+                
+                let last = reverseList(head?.next, n - 1)
+                head?.next?.next = head
+                head?.next = next
+                return last
             }
-            current = current?.next
-            index += 1
+            
+            return reverseList(head, n)
         }
         
-        let reverseHead = reverse(subHead)
-        current = reverseHead
-        while current?.next != nil {
-            current = current?.next
-        }
-        
-        current?.next = after
-        before.next = reverseHead
-        return newHead.next
-    }
-    
-    func reverse(_ head: ListNode?) -> ListNode? {
-        guard var head = head else {
-            return nil
-        }
-        let current = head
-        while let next = current.next {
-            current.next = next.next
-            next.next = head
-            head = next
-        }
+        head?.next = reverseBetween(head?.next, m - 1, n - 1)
         return head
     }
 }

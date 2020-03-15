@@ -31,13 +31,14 @@ class Solution {
         var end = nums.count - 1
         while start < end {
             let mid = (start + end) / 2
-            let right = mid + 1
-            // 左边小
-            if nums[mid] < nums[right] {
-                start = right
-            } else {
+            // 往左找，最差直到 start > start - 1
+            if nums[mid] > nums[mid + 1] {
                 end = mid
+            // 往右找，最差直到 end > end + 1
+            } else {
+                start = mid + 1
             }
+            
         }
         return start
     }

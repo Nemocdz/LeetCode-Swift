@@ -33,9 +33,9 @@ class Solution {
         while start <= end {
             let mid = (start + end) / 2
             if nums[mid] > target {
-                end -= 1
+                end = mid - 1
             } else if nums[mid] < target {
-                start += 1
+                start = mid + 1
             } else {
                 return mid
             }

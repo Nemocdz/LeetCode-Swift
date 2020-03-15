@@ -26,16 +26,17 @@ class Solution {
         if strs.isEmpty {
             return ""
         }
-        let first = strs.first!
+
+        let first = Array(strs.first!)
         for (index, c) in first.enumerated() {
-            let _index = String.Index(utf16Offset: index, in: first)
             for str in strs.dropFirst() {
-                if index >= str.count || str[_index] != c {
-                    return String(first[first.startIndex..<_index])
+                let str = Array(str)
+                if index >= str.count || str[index] != c {
+                    return String(first[0..<index])
                 }
             }
         }
-        return first
+        return String(first)
     }
 }
 

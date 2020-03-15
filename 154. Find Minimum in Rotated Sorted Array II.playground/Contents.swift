@@ -28,22 +28,20 @@ class Solution {
         var start = 0
         var end = nums.count - 1
         
-        while nums[start] >= nums[end] {
-            if end - start == 1 {
-                return nums[end]
-            }
-            
+        while start < end {
             let mid = (start + end) / 2
             
-            // 如果 start mid end 三者相等，无法分辨数组头在哪个位置，只能遍历
-            if nums[start] == nums[mid] && nums[start] == nums[end] {
-                return nums.min()!
-            }
-            
-            if nums[start] <= nums[mid] {
-                start = mid
-            } else if nums[mid] <= nums[end] {
+            if nums[mid] < nums[end] {
                 end = mid
+            } else if nums[mid] > nums[end] {
+                start = mid + 1
+            } else {
+                // nums[start] == nums[mid] == nums[end] end 在 start 后面，所以 end 不可能
+                if nums[start] == nums[mid] {
+                    end -= 1
+                } else {
+                    end = mid
+                }
             }
         }
         

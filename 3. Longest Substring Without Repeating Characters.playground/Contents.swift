@@ -25,10 +25,11 @@ class Solution {
     func lengthOfLongestSubstring(_ s: String) -> Int {
         var start = 0
         var length = 0
+        let s = Array(s)
         for end in 0..<s.count {
-            for temp in start..<end {
-                if s[.init(utf16Offset: end, in: s)] == s[.init(utf16Offset: temp, in: s)] {
-                    start = temp + 1
+            for i in start..<end {
+                if s[end] == s[i] {
+                    start = i + 1
                     break
                 }
             }

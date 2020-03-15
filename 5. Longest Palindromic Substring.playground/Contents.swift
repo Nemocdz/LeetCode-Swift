@@ -20,27 +20,60 @@ class Solution {
         if s.isEmpty {
             return ""
         }
-    
-        var map = [[Bool]](repeating: [Bool](repeating: false, count: s.count), count: s.count)
-        var length = 0
-        var maxString = ""
         
-        for end in 0..<s.count {
-            for start in 0...end {
-                let startIndex = String.Index(utf16Offset: start, in: s)
-                let endIndex = String.Index(utf16Offset: end, in: s)
-                let last = s[startIndex] == s[endIndex]
-                map[start][end] = end - start < 2 ? last : last && map[start + 1][end - 1]
-                let new = end - start + 1
-                if map[start][end] && new > length {
-                    length = new
-                    maxString = String(s[startIndex...endIndex])
-                }
+        let s = Array(s)
+        
+        var start = 0
+        var end = 0
+    
+        func palindromeLength(_ l:Int, _ r:Int) -> Int {
+            var l = l
+            var r = r
+            while l >= 0 && r < s.count && s[l] == s[r] {
+                l -= 1
+                r += 1
+            }
+            return r - l - 1
+        }
+        
+        for i in 0..<s.count {
+            let length = max(palindromeLength(i, i), palindromeLength(i, i + 1))
+            
+            if length > end - start {
+                start = i - (length - 1) / 2
+                end = i + length / 2
+            }
+            
+            if end - start > (s.count - i) * 2 {
+                break
             }
         }
         
-        return maxString
+        return String(s[start...end])
     }
+    
+    func longestPalindrome2(_ s: String) -> String {
+        if s.isEmpty {
+            return ""
+        }
+        
+        var dp = (0..<s.count).map{_ in (0..<s.count).map{_ in false } }
+        var answer = ""
+        let s = Array(s)
+        
+        for end in 0..<s.count {
+            for start in 0...end {
+                // dp[i][j] = dp[i + 1][j - 1] && s[i] == s[j]
+                let isPalindrome = end - start < 2 ? s[start] == s[end] : s[start] == s[end] && dp[start + 1][end - 1]
+                dp[start][end] = isPalindrome
+                if isPalindrome && (end - start + 1) > answer.count {
+                    answer = String(s[start...end])
+                }
+            }
+        }
+        return answer
+    }
+
 }
 
 Solution().longestPalindrome(s)

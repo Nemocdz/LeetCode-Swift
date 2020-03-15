@@ -26,17 +26,15 @@ class Solution {
         var oneIndex = 0
         var twoIndex = nums.count
         while oneIndex < twoIndex {
-            // 小
             if nums[oneIndex] == 0 {
                 zeroIndex += 1
                 nums.swapAt(zeroIndex, oneIndex)
                 oneIndex += 1
-            // 大
+            } else if nums[oneIndex] == 1 {
+                oneIndex += 1
             } else if nums[oneIndex] == 2 {
                 twoIndex -= 1
                 nums.swapAt(oneIndex, twoIndex)
-            } else {
-                oneIndex += 1
             }
         }
     }

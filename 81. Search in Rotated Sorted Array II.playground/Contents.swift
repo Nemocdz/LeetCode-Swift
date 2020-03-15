@@ -27,10 +27,12 @@ class Solution {
         var end  = nums.count - 1
         while start <= end {
             let mid = (start + end) / 2
+            
             if nums[mid] == target {
                 return true
             }
             
+            // 三者相同无法分辨区间
             if nums[start] == nums[mid] && nums[end] == nums[mid] {
                 start += 1
                 end -= 1

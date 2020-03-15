@@ -24,39 +24,47 @@ class Solution {
             return [-1, -1]
         }
         
-        func index(isFirst:Bool) -> Int? {
+        let left:Int = {
             var start = 0
             var end = nums.count - 1
             while start <= end {
                 let mid = (start + end) / 2
-                
-                if nums[mid] > target {
-                    end = mid - 1
-                } else if nums[mid] < target {
+                if nums[mid] < target {
                     start = mid + 1
+                } else if nums[mid] > target {
+                    end = mid - 1
                 } else {
-                    if isFirst {
-                        end = mid - 1
-                    } else {
-                        start = mid + 1
-                    }
+                    end = mid - 1
                 }
             }
             
-            if isFirst && start <= nums.count - 1 && nums[start] == target {
-                return start
-            } else if !isFirst && end >= 0 && nums[end] == target {
-                return end
+            if start > nums.count - 1 || nums[start] != target {
+                return -1
             }
-            return nil
-        }
+            return start
+        }()
         
-        if let left = index(isFirst: true),
-            let right = index(isFirst: false) {
-            return [left, right]
-        }
-        
-        return [-1, -1]
+        let right:Int = {
+            var start = 0
+            var end = nums.count - 1
+            while start <= end {
+                let mid = (start + end) / 2
+                if nums[mid] < target {
+                    start = mid + 1
+                } else if nums[mid] > target {
+                    end = mid - 1
+                } else {
+                    start = mid + 1
+                }
+            }
+            
+            if end < 0 || nums[end] != target {
+                return -1
+            }
+            return end
+        }()
+                
+        return [left, right]
     }
 }
 
