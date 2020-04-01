@@ -39,7 +39,7 @@ class Solution {
                 times2 = 1
             } else {
                 times1 -= 1
-                times2 -= 2
+                times2 -= 1
             }
         }
         
