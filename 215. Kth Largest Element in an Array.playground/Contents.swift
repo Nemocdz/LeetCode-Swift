@@ -50,7 +50,6 @@ class Solution {
             
             return start
         }
-        
 
         while true {
             let index = partition(start, end)
