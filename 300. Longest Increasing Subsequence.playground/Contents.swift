@@ -17,9 +17,17 @@ import Cocoa
 
 class Solution {
     func lengthOfLIS(_ nums: [Int]) -> Int {
+        if nums.isEmpty {
+            return 0
+        }
+        
+        if nums.count == 1 {
+            return 1
+        }
+        
         var lengths = nums.map{ _ in 1 }
         for i in 1..<nums.count {
-            var maxLength = 1
+            var maxLength = 0
             // dp[i] = max(dp[0]...dp[i - 1]) + 1
             for j in 0..<i {
                 if nums[j] < nums[i] {
