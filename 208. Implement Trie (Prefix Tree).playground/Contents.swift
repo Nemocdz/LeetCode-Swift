@@ -19,13 +19,13 @@ import Cocoa
  保证所有输入均为非空字符串。
  */
 
-class TrieNode {
-    var children = [Character: TrieNode]()
+class TrieNode<T:Hashable> {
+    var children = [T: TrieNode]()
     var isEnd = false
 }
 
 class Trie {
-    let root = TrieNode()
+    let root = TrieNode<Character>()
     /** Initialize your data structure here. */
     init() {
 
@@ -43,7 +43,7 @@ class Trie {
             if let child = currentNode.children[c] {
                 currentNode = child
             } else {
-                let node = TrieNode()
+                let node = TrieNode<Character>()
                 currentNode.children[c] = node
                 currentNode = node
             }
@@ -61,7 +61,7 @@ class Trie {
         return findNode(of: Array(prefix.lowercased())) != nil
     }
     
-    func findNode(of chars:[Character]) -> TrieNode? {
+    func findNode(of chars:[Character]) -> TrieNode<Character>? {
         if chars.isEmpty {
             return nil
         }
