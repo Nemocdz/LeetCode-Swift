@@ -39,6 +39,19 @@ class Solution {
         }
         return answer
     }
+    
+    func maxProfit2(_ prices: [Int]) -> Int {
+        // 0 不持有，1 持有
+        var dp_i_0 = 0
+        var dp_i_1 = Int.min
+        for i in 0..<prices.count {
+            // dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i])
+            dp_i_0 = max(dp_i_0, dp_i_1 + prices[i])
+            // dp[i][1] = max(dp[i - 1][1], -prices[i])
+            dp_i_1 = max(dp_i_1, -prices[i])
+        }
+        return dp_i_0
+    }
 }
 
 
