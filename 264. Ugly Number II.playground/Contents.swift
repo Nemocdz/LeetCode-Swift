@@ -24,9 +24,11 @@ class Solution {
         var index3 = 0
         var index5 = 0
         
-        for _ in 1...n {
+        for _ in 0..<(n - 1) {
             let next = min(uglyNums[index2] * 2, uglyNums[index3] * 3, uglyNums[index5] * 5)
+            
             uglyNums.append(next)
+            
             while uglyNums[index2] * 2 <= next {
                 index2 += 1
             }
@@ -39,7 +41,7 @@ class Solution {
                 index5 += 1
             }
         }
-        return uglyNums[n - 1]
+        return uglyNums.last!
     }
 }
 
